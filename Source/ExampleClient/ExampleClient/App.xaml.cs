@@ -1,19 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
-
-namespace ExampleClient
+﻿namespace ExampleClient
 {
-    public partial class App : Application
+    public partial class App
     {
         public App()
         {
             InitializeComponent();
 
-            MainPage = new ExampleClient.MainPage();
+            MainPage = new MainPage();
         }
 
         protected override void OnStart()
