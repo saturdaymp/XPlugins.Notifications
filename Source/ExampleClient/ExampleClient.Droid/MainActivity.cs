@@ -1,6 +1,8 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using SaturdayMP.XPlugins.Notifications;
+using Xamarin.Forms;
 
 namespace ExampleClient.Droid
 {
@@ -14,7 +16,15 @@ namespace ExampleClient.Droid
 
             base.OnCreate(bundle);
 
+            // Setup Xamarin forms.
             Xamarin.Forms.Forms.Init(this, bundle);
+
+
+            // Register the notification dependency.
+            DependencyService.Register<NotificationScheduler>();
+
+
+            // Start the application.
             LoadApplication(new App());
         }
     }

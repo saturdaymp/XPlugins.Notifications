@@ -56,7 +56,6 @@
     <Reference Include="mscorlib" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.ObjectModel" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Xml" />
     <Reference Include="Xamarin.Android.Support.Animated.Vector.Drawable, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -133,6 +132,10 @@
     <AndroidResource Include="Resources\values\styles.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\SaturdayMP.XPlugins.Notifications.Droid\SaturdayMP.XPlugins.Notifications.Droid.csproj">
+      <Project>{89324fe5-49ea-4869-994c-ced3145a2626}</Project>
+      <Name>SaturdayMP.XPlugins.Notifications.Droid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExampleClient\ExampleClient.csproj">
       <Project>{ee317daf-e289-47ef-99e3-a2802d70a18c}</Project>
       <Name>ExampleClient</Name>
