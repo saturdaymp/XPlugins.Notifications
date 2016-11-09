@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications
             // https://developer.android.com/reference/android/app/AlarmManager.html
 
             // Create the intent to be called when the alarm triggers.
-            var alarmIntent = new Intent(Application.Context, typeof(AlarmHandler));
+            var alarmIntent = new Intent(Application.Context, typeof(NotificationAlarmHandler));
             alarmIntent.PutExtra("title", title);
             alarmIntent.PutExtra("message", message);
 

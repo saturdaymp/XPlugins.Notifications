@@ -49,7 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlarmHandler.cs" />
+    <Compile Include="NotificationAlarmHandler.cs" />
     <Compile Include="NotificationScheduler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
