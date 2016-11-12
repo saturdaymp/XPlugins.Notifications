@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
     <metadata>
         <id>SaturdayMP.XPlugin.Notifications</id>
-        <version>0.1.0</version>
+        <version>$version$</version>
         <title>XPlugin - Notifications</title>
         <authors>SaturdayMP,chrisc</authors>
         <owners>SaturdayMP,chrisc</owners>
