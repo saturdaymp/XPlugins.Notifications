@@ -1,26 +1,22 @@
 using System;
 using Android.App;
 using Android.Content;
-using Android.OS;
-using SaturdayMP.XPlugins.Notifications.Droid;
 
-namespace SaturdayMP.XPlugins.Notifications
+namespace SaturdayMP.XPlugins.Notifications.Droid
 {
-    public class NotificationScheduler : INotificationScheduler
+    /// <summary>
+    /// Used to schedule local notificaions in Android.
+    /// </summary>
+    public abstract class NotificationScheduler : INotificationScheduler
     {
         /// <inheritdoc />
         public int Create(string title, string message)
         {
-            // https://nnish.com/2014/12/16/scheduled-notifications-in-android-using-alarm-manager/
-            // https://github.com/edsnider/Xamarin.Plugins/blob/master/Notifier/Plugin.LocalNotifications.Android/LocalNotificationsImplementation.cs
-            // https://developer.android.com/reference/android/app/AlarmManager.html
-
             // Create the intent to be called when the alarm triggers.
             var alarmIntent = new Intent(Application.Context, typeof(NotificationAlarmHandler));
             alarmIntent.PutExtra("title", title);
             alarmIntent.PutExtra("message", message);
 
-            // TODO: Comments
             var pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
 
             // Figure out the alaram in milliseconds.
@@ -32,6 +28,8 @@ namespace SaturdayMP.XPlugins.Notifications
             var alarmManager = Application.Context.GetSystemService(Context.AlarmService) as AlarmManager;
             alarmManager?.Set(AlarmType.RtcWakeup, notifyTimeInInMilliseconds, pendingIntent);
 
+            // TODO: Figure out a way to track the notification number.
+            // All done.
             return 0;
 
         }

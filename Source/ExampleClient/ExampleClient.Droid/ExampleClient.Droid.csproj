@@ -136,6 +136,10 @@
       <Project>{89324fe5-49ea-4869-994c-ced3145a2626}</Project>
       <Name>SaturdayMP.XPlugins.Notifications.Droid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\SaturdayMP.XPlugins.Notifications\SaturdayMP.XPlugins.Notifications.csproj">
+      <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
+      <Name>SaturdayMP.XPlugins.Notifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ExampleClient\ExampleClient.csproj">
       <Project>{ee317daf-e289-47ef-99e3-a2802d70a18c}</Project>
       <Name>ExampleClient</Name>
