@@ -1,5 +1,8 @@
 ﻿using Foundation;
 using UIKit;
+using Xamarin.Forms;
+using Xamarin.Forms.Platform.iOS;
+using SaturdayMP.XPlugins.Notifications.iOS;
 
 namespace ExampleClient.iOS
 {
@@ -7,7 +10,7 @@ namespace ExampleClient.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public class AppDelegate : Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public class AppDelegate : FormsApplicationDelegate
     {
         //
         // This method is invoked when the application has loaded and is ready to run. In this 
@@ -18,9 +21,21 @@ namespace ExampleClient.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            Forms.Init();
 
+            // Check if the user wants notifications.
+            var settings = UIUserNotificationSettings.GetSettingsForTypes(
+                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                    new NSSet());
+            UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
+
+
+            // Register the notification dependency.
+            DependencyService.Register<NotificationScheduler>();
+
+
+            // Launch the app.
+            LoadApplication(new App());
             return base.FinishedLaunching(app, options);
         }
     }
