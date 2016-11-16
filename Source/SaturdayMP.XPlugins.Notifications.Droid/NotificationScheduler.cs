@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Android.App;
 using Android.Content;
 
@@ -32,6 +33,13 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // All done.
             return 0;
 
+        }
+
+        // TODO: NYI
+        /// <inheritdoc />
+        public int Create(string title, string message, Dictionary<string, object> extraInfo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

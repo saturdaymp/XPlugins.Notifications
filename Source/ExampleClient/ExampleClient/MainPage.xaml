@@ -5,8 +5,24 @@
              x:Class="ExampleClient.MainPage"
              Title="Notifications Example Client">
 
-    <StackLayout>
-        <Button x:Name="ScheduleNowButton" Text="Schedule Now" Clicked="ScheduleNowButton_OnClicked" />
+    <StackLayout Orientation="Vertical">
+        <StackLayout>
+            <Button x:Name="ScheduleNowButton" Text="Schedule Now" Clicked="ScheduleNowButton_OnClicked" />
+        </StackLayout>
+        <StackLayout Orientation="Vertical">
+            <StackLayout Orientation="Horizontal">
+                <Label Text="Extra Info:" />
+                <Switch x:Name="ExtraInfoSwitch" IsToggled="False" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" BindingContext="{x:Reference Name=ExtraInfoSwitch}" IsEnabled="{Binding IsToggled}">
+                <Label Text="Extra Info Number:" />
+                <Entry x:Name="ExtraInfoNumberEntry" />
+            </StackLayout>
+            <StackLayout Orientation="Horizontal" BindingContext="{x:Reference Name=ExtraInfoSwitch}" IsEnabled="{Binding IsToggled}">
+                <Label Text="Extra Info Text:" />
+                <Entry x:Name="ExtraInfoTextEntry" />
+            </StackLayout>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>

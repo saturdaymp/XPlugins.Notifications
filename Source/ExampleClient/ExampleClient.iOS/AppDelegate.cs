@@ -1,8 +1,8 @@
 ﻿using Foundation;
+using SaturdayMP.XPlugins.Notifications.iOS;
 using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
-using SaturdayMP.XPlugins.Notifications.iOS;
 
 namespace ExampleClient.iOS
 {
@@ -25,18 +25,30 @@ namespace ExampleClient.iOS
 
             // Check if the user wants notifications.
             var settings = UIUserNotificationSettings.GetSettingsForTypes(
-                    UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
-                    new NSSet());
+                UIUserNotificationType.Alert | UIUserNotificationType.Badge | UIUserNotificationType.Sound,
+                new NSSet());
             UIApplication.SharedApplication.RegisterUserNotificationSettings(settings);
 
 
-            // Register the notification dependency.
+            // Register the notification dependency.  Don't forget to do this.
             DependencyService.Register<NotificationScheduler>();
 
 
             // Launch the app.
             LoadApplication(new App());
             return base.FinishedLaunching(app, options);
+        }
+
+        /// <summary>
+        ///     Handle a incoming iOS notification and pass it along to the
+        ///     <see cref="SaturdayMP.XPlugins.Notifications.NotificationScheduler" />.
+        /// </summary>
+        /// <param name="application">See <see cref="FormsApplicationDelegate.ReceivedLocalNotification" /> for more info.</param>
+        /// <param name="notification">See <see cref="FormsApplicationDelegate.ReceivedLocalNotification" /> for more info.</param>
+        public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+        {
+            // Let the notification plugin do all the work.
+            NotificationScheduler.Recieved(notification);
         }
     }
 }

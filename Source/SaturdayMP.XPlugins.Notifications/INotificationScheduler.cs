@@ -1,4 +1,6 @@
-﻿namespace SaturdayMP.XPlugins.Notifications
+﻿using System.Collections.Generic;
+
+namespace SaturdayMP.XPlugins.Notifications
 {
     /// <summary>
     /// Interface for scheduling a notification.
@@ -12,5 +14,8 @@
         /// <param name="message">The content of the notification.</param>
         /// <returns>A unique identification number for this notification.</returns>
         int Create(string title, string message);
+
+        // TODO: Comments
+        int Create(string title, string message, Dictionary<string, object> extraInfo);
     }
 }
