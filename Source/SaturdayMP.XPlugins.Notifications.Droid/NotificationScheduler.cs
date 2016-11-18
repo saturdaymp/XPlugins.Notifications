@@ -41,5 +41,11 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
         {
             throw new NotImplementedException();
         }
+
+        /// <inheritdoc />
+        public int Create(string title, string message, DateTime scheduleDate)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -7,7 +7,10 @@
 
     <StackLayout Orientation="Vertical">
         <StackLayout>
-            <Button x:Name="ScheduleNowButton" Text="Schedule Now" Clicked="ScheduleNowButton_OnClicked" />
+            <Button Text="Schedule Now" Clicked="ScheduleNowButton_OnClicked" />
+        </StackLayout>
+        <StackLayout>
+            <Button Text="Schedule in 2 Mins" Clicked="ScheduleTwoMinutesButton_OnClicked" />
         </StackLayout>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal">

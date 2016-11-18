@@ -22,7 +22,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         }
 
         /// <inheritdoc />
-        public int Create(string title, string message, [NotNull] Dictionary<string, object> extraInfo)
+        public int Create(string title, string message, Dictionary<string, object> extraInfo)
         {
             // Make sure the extra info is supplied but can be empty.
             if (extraInfo == null) throw new ArgumentNullException(nameof(extraInfo));
@@ -34,6 +34,27 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                 AlertBody = message,
                 FireDate = NSDate.Now,
                 UserInfo = NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray(), extraInfo.Keys.Cast<object>().ToArray())
+            };
+
+            // Schedule the notification.
+            UIApplication.SharedApplication.ScheduleLocalNotification(notification);
+
+            // TODO: Return the ID of the notification.
+            return 0;
+        }
+
+        /// <inheritdoc />
+        public int Create(string title, string message, DateTime scheduleDate)
+        {
+            if (title == null) throw new ArgumentNullException(nameof(title));
+            if (message == null) throw new ArgumentNullException(nameof(message));
+
+            // Create the iOS notification.
+            var notification = new UILocalNotification
+            {
+                AlertTitle = title,
+                AlertBody = message,
+                FireDate = (NSDate) scheduleDate
             };
 
             // Schedule the notification.

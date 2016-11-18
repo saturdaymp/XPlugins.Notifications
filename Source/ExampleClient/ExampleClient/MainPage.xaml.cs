@@ -59,5 +59,15 @@ namespace ExampleClient
                 _notificationScheduler.Create("Schedule Now", $"Created: {DateTime.Now:G}, Scheduled: {DateTime.Now:G}");
             }
         }
+
+        private void ScheduleTwoMinutesButton_OnClicked(object sender, EventArgs e)
+        {
+            ScheduleSoonNotification(DateTime.Now.AddMinutes(2));
+        }
+
+        private void ScheduleSoonNotification(DateTime scheduledDate)
+        {
+            _notificationScheduler.Create("Schedule Now", $"Created: {DateTime.Now:G}, Scheduled: {scheduledDate:G}", scheduledDate);
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications
         private static INotificationListener _listener;
 
         /// <inheritdoc />
-        public int Create([NotNull] string title, [NotNull] string message)
+        public int Create(string title, string message)
         {
             if (title == null) throw new ArgumentNullException(nameof(title));
             if (message == null) throw new ArgumentNullException(nameof(message));
@@ -25,11 +25,20 @@ namespace SaturdayMP.XPlugins.Notifications
         }
 
         /// <inheritdoc />
-        public int Create([NotNull] string title, [NotNull] string message, [NotNull] Dictionary<string, object> extraInfo)
+        public int Create(string title, string message, Dictionary<string, object> extraInfo)
         {
             if (title == null) throw new ArgumentNullException(nameof(title));
             if (message == null) throw new ArgumentNullException(nameof(message));
             if (extraInfo == null) throw new ArgumentNullException(nameof(extraInfo));
+
+            throw new NotImplementedException("Should call the platform specific method.");
+        }
+
+        /// <inheritdoc />
+        public int Create(string title, string message, DateTime scheduleDate)
+        {
+            if (title == null) throw new ArgumentNullException(nameof(title));
+            if (message == null) throw new ArgumentNullException(nameof(message));
 
             throw new NotImplementedException("Should call the platform specific method.");
         }
