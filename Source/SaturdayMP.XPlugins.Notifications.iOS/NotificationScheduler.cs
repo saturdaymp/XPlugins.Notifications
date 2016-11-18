@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
-using JetBrains.Annotations;
 using UIKit;
 
 namespace SaturdayMP.XPlugins.Notifications.iOS
