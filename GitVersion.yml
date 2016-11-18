@@ -1,5 +1,6 @@
 branches:
   master:
+    mode: ContinuousDeployment
     tag: unstable
   releases?[/-]:
     tag: ''
