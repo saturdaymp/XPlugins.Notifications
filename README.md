@@ -74,7 +74,7 @@ If you use [Prism](https://github.com/PrismLibrary/Prism) in your application yo
 
 The create method returns a unique identification number for the newly created notification.  If you need to cancel or update a notification then keep track of this number.  Otherwise you can just ignore this return value.
 
-## Cancel a Notification
+## Cancel a Notification (NYI, Scheduled for 0.2.0)
 To cancel a notification you need to know the notification number.  If you didn't track the notification number when you created then shame on you.  Also you won't be able to cancel the notification.  Assuming you have the notification number then just do:
 
     notificationScheduler.Cancel(notificationNumber);
