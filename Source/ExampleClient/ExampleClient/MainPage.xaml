@@ -2,30 +2,48 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:exampleClient="clr-namespace:ExampleClient;assembly=ExampleClient"
              x:Class="ExampleClient.MainPage"
              Title="Notifications Example Client">
 
+    <ContentPage.BindingContext>
+        <exampleClient:MainPageViewModel />
+    </ContentPage.BindingContext>
+
     <StackLayout Orientation="Vertical">
         <StackLayout>
-            <Button Text="Schedule Now" Clicked="ScheduleNowButton_OnClicked" />
+            <Button Command="{Binding ScheduleNowCommand}" Text="Schedule Now" />
         </StackLayout>
         <StackLayout>
-            <Button Text="Schedule in 2 Mins" Clicked="ScheduleTwoMinutesButton_OnClicked" />
+            <Button Text="Schedule in 2 Mins" />
         </StackLayout>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal">
-                <Label Text="Extra Info:" />
-                <Switch x:Name="ExtraInfoSwitch" IsToggled="False" />
+                <Label Text="Include Extra Info:" />
+                <Switch HorizontalOptions="EndAndExpand" IsToggled="{Binding IncludeExtraInfo}" />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" BindingContext="{x:Reference Name=ExtraInfoSwitch}" IsEnabled="{Binding IsToggled}">
-                <Label Text="Extra Info Number:" />
-                <Entry x:Name="ExtraInfoNumberEntry" />
+            <StackLayout Orientation="Vertical">
+                <Label IsEnabled="{Binding IncludeExtraInfo}" Text="1st Extra Info:" />
+                <Entry IsEnabled="{Binding IncludeExtraInfo}" Text="{Binding ExtraInfoOne}" />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" BindingContext="{x:Reference Name=ExtraInfoSwitch}" IsEnabled="{Binding IsToggled}">
-                <Label Text="Extra Info Text:" />
-                <Entry x:Name="ExtraInfoTextEntry" />
+            <StackLayout Orientation="Vertical">
+                <Label HorizontalOptions="Start" IsEnabled="{Binding IncludeExtraInfo}" Text="2nd Extra Info:" />
+                <Entry HorizontalOptions="FillAndExpand" IsEnabled="{Binding IncludeExtraInfo}" Text="{Binding ExtraInfoTwo}" />
             </StackLayout>
         </StackLayout>
+
+      <ListView HasUnevenRows="True" Header="Scheduled Notifictaions" ItemsSource="{Binding ScheduledNotifications}" VerticalOptions="FillAndExpand">
+        <ListView.ItemTemplate>
+          <DataTemplate>
+            <ViewCell>
+              <StackLayout Orientation="Vertical">
+                <Label Text="{Binding Title}" FontAttributes="Bold" />
+                <Label Text="{Binding IdAsString}" />
+              </StackLayout>
+            </ViewCell>
+          </DataTemplate>
+        </ListView.ItemTemplate>
+      </ListView>
     </StackLayout>
 
 </ContentPage>

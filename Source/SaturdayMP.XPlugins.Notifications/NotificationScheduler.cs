@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications
         private static INotificationListener _listener;
 
         /// <inheritdoc />
-        public int Create(string title, string message)
+        public Guid Create(string title, string message)
         {
             if (title == null) throw new ArgumentNullException(nameof(title));
             if (message == null) throw new ArgumentNullException(nameof(message));
@@ -25,7 +25,7 @@ namespace SaturdayMP.XPlugins.Notifications
         }
 
         /// <inheritdoc />
-        public int Create(string title, string message, Dictionary<string, object> extraInfo)
+        public Guid Create(string title, string message, Dictionary<string, object> extraInfo)
         {
             if (title == null) throw new ArgumentNullException(nameof(title));
             if (message == null) throw new ArgumentNullException(nameof(message));
@@ -35,7 +35,7 @@ namespace SaturdayMP.XPlugins.Notifications
         }
 
         /// <inheritdoc />
-        public int Create(string title, string message, DateTime scheduleDate)
+        public Guid Create(string title, string message, DateTime scheduleDate)
         {
             if (title == null) throw new ArgumentNullException(nameof(title));
             if (message == null) throw new ArgumentNullException(nameof(message));

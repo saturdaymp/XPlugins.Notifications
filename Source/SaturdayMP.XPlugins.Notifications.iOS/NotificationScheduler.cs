@@ -11,20 +11,33 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
     /// </summary>
     public class NotificationScheduler : INotificationScheduler
     {
-        #region Create Notification
+        /// <summary>
+        ///     The key used to hold the notificiation ID in the user info
+        ///     info dictonary.  Is hopefully unique enough that
+        ///     the caller won't use the same key.
+        /// </summary>
+        private const string NotificationIdKey = "notificationidkey";
 
+        #region Create Notification
+        
         /// <inheritdoc />
-        public int Create(string title, string message)
+        public Guid Create(string title, string message)
         {
             // Create a notification with no extra info.
             return Create(title, message, new Dictionary<string, object>());
         }
 
         /// <inheritdoc />
-        public int Create(string title, string message, Dictionary<string, object> extraInfo)
+        public Guid Create(string title, string message, Dictionary<string, object> extraInfo)
         {
             // Make sure the extra info is supplied but can be empty.
             if (extraInfo == null) throw new ArgumentNullException(nameof(extraInfo));
+
+
+            // Create the unique ID for this notification.
+            var notificationId = Guid.NewGuid();
+            extraInfo.Add(NotificationIdKey, notificationId.ToString("N"));
+
 
             // Create the iOS notification.
             var notification = new UILocalNotification
@@ -35,32 +48,19 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                 UserInfo = NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray(), extraInfo.Keys.Cast<object>().ToArray())
             };
 
+
             // Schedule the notification.
             UIApplication.SharedApplication.ScheduleLocalNotification(notification);
 
-            // TODO: Return the ID of the notification.
-            return 0;
+            
+            // All done.
+            return notificationId;
         }
 
         /// <inheritdoc />
-        public int Create(string title, string message, DateTime scheduleDate)
+        public Guid Create(string title, string message, DateTime scheduleDate)
         {
-            if (title == null) throw new ArgumentNullException(nameof(title));
-            if (message == null) throw new ArgumentNullException(nameof(message));
-
-            // Create the iOS notification.
-            var notification = new UILocalNotification
-            {
-                AlertTitle = title,
-                AlertBody = message,
-                FireDate = (NSDate) scheduleDate
-            };
-
-            // Schedule the notification.
-            UIApplication.SharedApplication.ScheduleLocalNotification(notification);
-
-            // TODO: Return the ID of the notification.
-            return 0;
+            return Create(title, message, new Dictionary<string, object>());
         }
 
         #endregion
