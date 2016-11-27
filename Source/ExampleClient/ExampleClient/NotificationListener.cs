@@ -1,4 +1,6 @@
-﻿using SaturdayMP.XPlugins.Notifications;
+﻿using ExampleClient.Repositories;
+using ExampleClient.ViewModels;
+using SaturdayMP.XPlugins.Notifications;
 using Xamarin.Forms;
 
 namespace ExampleClient
@@ -15,25 +17,32 @@ namespace ExampleClient
         public void Recieved(Notification notification)
         {
             // Copy the notification values to the view model
-            var viewModel = new NotificationDisplayViewModel
+            var viewModel = new NotificationRecievedViewModel
             {
+                Id = notification.Id,
                 Title = notification.Title,
                 Message = notification.Message
             };
 
             // Only copy the extra info if it exists.
-            if (notification.ExtraInfo.ContainsKey("Number"))
+            if (notification.ExtraInfo.ContainsKey("ExtraInfoOne"))
             {
-                viewModel.ExtraInfoNumber = (int) notification.ExtraInfo["Number"];
+                viewModel.ExtraInfoOne = (string) notification.ExtraInfo["ExtraInfoOne"];
             }
 
-            if (notification.ExtraInfo.ContainsKey("Text"))
+            if (notification.ExtraInfo.ContainsKey("ExtraInfoTwo"))
             {
-                viewModel.ExtraInfoText = (string) notification.ExtraInfo["Text"];
+                viewModel.ExtraInfoTwo = (string) notification.ExtraInfo["ExtraInfoTwo"];
             }
+
+
+            // Save the recieved view model.
+            var repo = new ScheduledNotificationRepository();
+            ScheduledNotificationRepository.NotificationRecieved(notification.Id, viewModel.Title, viewModel.Message, viewModel.ExtraInfoOne, viewModel.ExtraInfoTwo);
+
 
             // Show the notifcation page.
-            var notificationPage = new NotificationDisplayPage(viewModel);
+            var notificationPage = new Views.NotificationRecievedPage(viewModel);
             Application.Current.MainPage.Navigation.PushAsync(notificationPage);
         }
     }

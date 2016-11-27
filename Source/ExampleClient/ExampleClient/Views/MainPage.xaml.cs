@@ -1,4 +1,6 @@
-﻿namespace ExampleClient
+﻿using ExampleClient.ViewModels;
+
+namespace ExampleClient.Views
 {
     /// <summary>
     ///     A bunch of buttons to test the sending of notifications.
@@ -12,7 +14,7 @@
         {
             InitializeComponent();
 
-            BindingContext = new MainPageViewModel();
+            BindingContext = new MainPageViewModel(Navigation);
         }
     }
 }

@@ -1,17 +1,18 @@
-﻿using JetBrains.Annotations;
+﻿using ExampleClient.ViewModels;
+using JetBrains.Annotations;
 
-namespace ExampleClient
+namespace ExampleClient.Views
 {
     /// <summary>
     ///     Shows a recived notification.
     /// </summary>
-    public partial class NotificationDisplayPage
+    public partial class NotificationRecievedPage
     {
         /// <summary>
         ///     Create a new notification page and bind it to the view model.
         /// </summary>
         /// <param name="viewModel">The notification values.</param>
-        public NotificationDisplayPage([NotNull] NotificationDisplayViewModel viewModel)
+        public NotificationRecievedPage([NotNull] NotificationRecievedViewModel viewModel)
         {
             InitializeComponent();
 

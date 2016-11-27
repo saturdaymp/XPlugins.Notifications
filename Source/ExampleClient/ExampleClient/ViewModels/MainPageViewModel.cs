@@ -4,14 +4,28 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using ExampleClient.Repositories;
+using ExampleClient.Views;
 using JetBrains.Annotations;
 using SaturdayMP.XPlugins.Notifications;
 using Xamarin.Forms;
 
-namespace ExampleClient
+namespace ExampleClient.ViewModels
 {
     internal sealed class MainPageViewModel : INotifyPropertyChanged
     {
+        public MainPageViewModelScheduledNotification SelectedScheduledNotification
+        {
+            get { return null; }
+            set
+            {
+                OnPropertyChanged();
+
+                if (value != null)
+                    _navigation.PushAsync(new ScheduledNotificationPage(new Guid(value.Text)));
+            }
+        }
+
         #region Fields
 
         /// <summary>
@@ -19,13 +33,17 @@ namespace ExampleClient
         /// </summary>
         private readonly INotificationScheduler _notificationScheduler;
 
+        /// <summary>
+        ///     Used to navigate between pages.
+        /// </summary>
+        private readonly INavigation _navigation;
+
         #endregion
 
         #region Constructors
 
         /// <summary>
-        ///     Create a new view model with the notification scheduled and commands
-        ///     initialized to the defaults.
+        ///     Create a new view model without any notification.
         /// </summary>
         public MainPageViewModel()
         {
@@ -40,7 +58,16 @@ namespace ExampleClient
 
             _extraInfoOne = "";
             _extraInfoTwo = "";
-            _scheduledNotifications = new ObservableCollection<ScheduledNotificationModel>();
+            _scheduledNotifications = new ObservableCollection<MainPageViewModelScheduledNotification>();
+        }
+
+        /// <summary>
+        ///     Create a new view model with the notification scheduled and commands
+        ///     initialized to the defaults.
+        /// </summary>
+        public MainPageViewModel([NotNull] INavigation navigation) : this()
+        {
+            _navigation = navigation;
         }
 
         #endregion
@@ -58,8 +85,7 @@ namespace ExampleClient
         /// </summary>
         private void ScheduleNow()
         {
-            // Used to track what notifications have been scheduled.
-            var newNotification = new ScheduledNotificationModel();
+            Guid notificationId;
 
             // Check if the extra info should be included when sending the notification
             // then schedule the notification.
@@ -68,19 +94,20 @@ namespace ExampleClient
 
             if (IncludeExtraInfo)
             {
-                var extraInfo = new Dictionary<string, object> {{"ExtraInfoOne", _extraInfoOne}, {"ExtraInfoTwo", _extraInfoTwo}};
-                newNotification.Id = _notificationScheduler.Create(title, message, extraInfo);
+                var extraInfo = new Dictionary<string, object> {{"ExtraInfoOne", ExtraInfoOne}, {"ExtraInfoTwo", ExtraInfoTwo}};
+                notificationId = _notificationScheduler.Create(title, message, extraInfo);
             }
             else
             {
-                newNotification.Id = _notificationScheduler.Create(title, message);
+                notificationId = _notificationScheduler.Create(title, message);
             }
 
             // Keep track of this scheduled notification.
-            newNotification.CreatedOn = DateTime.Now;
-            newNotification.ScheduledFor = DateTime.Now;
+            var repo = new ScheduledNotificationRepository();
+            ScheduledNotificationRepository.NotificationScheduled(notificationId, title, message, DateTime.Now, ExtraInfoOne, ExtraInfoTwo);
 
-            ScheduledNotifications.Add(newNotification);
+            // Add to the list of notifications.
+            ScheduledNotifications.Add(new MainPageViewModelScheduledNotification {Text = notificationId.ToString()});
         }
 
         #endregion
@@ -111,8 +138,7 @@ namespace ExampleClient
         /// <summary>
         ///     See <see cref="ExtraInfoOne" />.
         /// </summary>
-        [NotNull]
-        private string _extraInfoOne;
+        [NotNull] private string _extraInfoOne;
 
         /// <summary>
         ///     The first piece of extra into to include in the notifiaction.
@@ -134,8 +160,7 @@ namespace ExampleClient
         /// <summary>
         ///     See <see cref="ExtraInfoTwo" />.
         /// </summary>
-        [NotNull]
-        private string _extraInfoTwo;
+        [NotNull] private string _extraInfoTwo;
 
         /// <summary>
         ///     The second piece of extra information to be included in the notification.
@@ -157,19 +182,17 @@ namespace ExampleClient
 
         #region Scheduled Notifications
 
-
         /// <summary>
         ///     See <see cref="ScheduledNotifications" />.
         /// </summary>
-        [NotNull]
-        private ObservableCollection<ScheduledNotificationModel> _scheduledNotifications;
+        [NotNull] private ObservableCollection<MainPageViewModelScheduledNotification> _scheduledNotifications;
 
         /// <summary>
         ///     If true then include the extra info in the notification
         ///     to be scheduled.
         /// </summary>
         [NotNull]
-        public ObservableCollection<ScheduledNotificationModel> ScheduledNotifications
+        public ObservableCollection<MainPageViewModelScheduledNotification> ScheduledNotifications
         {
             get { return _scheduledNotifications; }
             set
@@ -180,7 +203,6 @@ namespace ExampleClient
                 OnPropertyChanged();
             }
         }
-
 
         #endregion
 

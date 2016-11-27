@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:ExampleClient.ViewModels;assembly=ExampleClient"
+             x:Class="ExampleClient.Views.ScheduledNotificationPage">
+
+    <ContentPage.BindingContext>
+        <viewModels:ScheduledNotificationViewModel />
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <StackLayout Orientation="Vertical">
+            <Label Text="ID" />
+            <Entry Text="{Binding Id}" />
+
+            <Label Text="Created On" />
+            <Entry Text="{Binding CreatedOn}" />
+
+            <Label Text="Scheduled For" />
+            <Entry Text="{Binding ScheduledFor}" />
+
+            <Label Text="Received On" />
+            <Entry Text="{Binding RecievedOn}" />
+
+            <Label Text="Scheduled Title" />
+            <Entry Text="{Binding ScheduledTitle}" />
+
+            <Label Text="Recieved Title" />
+            <Entry Text="{Binding RecievedTitle}" />
+
+            <Label Text="Scheduled Message" />
+            <Entry Text="{Binding ScheduledMessage}" />
+
+            <Label Text="Recived Message" />
+            <Entry Text="{Binding RecivedMessage}" />
+
+            <Label Text="Scheduled Extra Info One" />
+            <Entry Text="{Binding ScheduledExtraInfoOne}" />
+
+            <Label Text="Recived Extra Info One" />
+            <Entry Text="{Binding RecivedExtraInfoOne}" />
+
+            <Label Text="Scheduled Extra Info Two" />
+            <Entry Text="{Binding ScheduledExtraInfoTwo}" />
+
+            <Label Text="Recived Extra Info Two" />
+            <Entry Text="{Binding RecivedExtraInfoTwo}" />
+
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>

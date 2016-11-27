@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using JetBrains.Annotations;
 
 namespace SaturdayMP.XPlugins.Notifications
@@ -14,21 +15,6 @@ namespace SaturdayMP.XPlugins.Notifications
         [NotNull] public Dictionary<string, object> ExtraInfo;
 
         /// <summary>
-        ///     The unique ID of the notification.
-        /// </summary>
-        public int Id;
-
-        /// <summary>
-        ///     The message of the notification.
-        /// </summary>
-        public string Message;
-
-        /// <summary>
-        ///     The title of the notification.
-        /// </summary>
-        public string Title;
-
-        /// <summary>
         ///     Create an new empty notification and initialize
         ///     the extra info.
         /// </summary>
@@ -36,5 +22,20 @@ namespace SaturdayMP.XPlugins.Notifications
         {
             ExtraInfo = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        ///     The unique ID of the notification.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
+        ///     The message of the notification.
+        /// </summary>
+        public string Message { get; set; }
+
+        /// <summary>
+        ///     The title of the notification.
+        /// </summary>
+        public string Title { get; set; }
     }
 }

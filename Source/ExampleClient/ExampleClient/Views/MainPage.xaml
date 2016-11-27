@@ -2,12 +2,12 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:exampleClient="clr-namespace:ExampleClient;assembly=ExampleClient"
-             x:Class="ExampleClient.MainPage"
+             xmlns:viewModels="clr-namespace:ExampleClient.ViewModels;assembly=ExampleClient"
+             x:Class="ExampleClient.Views.MainPage"
              Title="Notifications Example Client">
 
     <ContentPage.BindingContext>
-        <exampleClient:MainPageViewModel />
+        <viewModels:MainPageViewModel />
     </ContentPage.BindingContext>
 
     <StackLayout Orientation="Vertical">
@@ -32,15 +32,10 @@
             </StackLayout>
         </StackLayout>
 
-      <ListView HasUnevenRows="True" Header="Scheduled Notifictaions" ItemsSource="{Binding ScheduledNotifications}" VerticalOptions="FillAndExpand">
+      <ListView HasUnevenRows="True" Header="Scheduled Notifictaions" ItemsSource="{Binding ScheduledNotifications}" VerticalOptions="FillAndExpand" SelectedItem="{Binding SelectedScheduledNotification, Mode=TwoWay}">
         <ListView.ItemTemplate>
           <DataTemplate>
-            <ViewCell>
-              <StackLayout Orientation="Vertical">
-                <Label Text="{Binding Title}" FontAttributes="Bold" />
-                <Label Text="{Binding IdAsString}" />
-              </StackLayout>
-            </ViewCell>
+            <TextCell Text="{Binding Text}" />
           </DataTemplate>
         </ListView.ItemTemplate>
       </ListView>
