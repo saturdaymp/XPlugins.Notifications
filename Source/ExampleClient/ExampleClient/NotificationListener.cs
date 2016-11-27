@@ -37,7 +37,6 @@ namespace ExampleClient
 
 
             // Save the recieved view model.
-            var repo = new ScheduledNotificationRepository();
             ScheduledNotificationRepository.NotificationRecieved(notification.Id, viewModel.Title, viewModel.Message, viewModel.ExtraInfoOne, viewModel.ExtraInfoTwo);
 
 
