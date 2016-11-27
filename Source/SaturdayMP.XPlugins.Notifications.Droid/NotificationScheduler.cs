@@ -23,15 +23,20 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             return Create(title, message, DateTime.Now);
         }
 
-        // TODO: NYI
         /// <inheritdoc />
-        public Guid Create(string title, string message, Dictionary<string, object> extraInfo)
+        public Guid Create(string title, string message, Dictionary<string, string> extraInfo)
         {
-            throw new NotImplementedException();
+            return Create(title, message, DateTime.Now, extraInfo);
         }
 
         /// <inheritdoc />
         public Guid Create(string title, string message, DateTime scheduleDate)
+        {
+            return Create(title, message, scheduleDate, new Dictionary<string, string>());
+        }
+
+        /// <inheritdoc />
+        public Guid Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
             // Create the unique identifier for this notifications.
             var notificationId = Guid.NewGuid();

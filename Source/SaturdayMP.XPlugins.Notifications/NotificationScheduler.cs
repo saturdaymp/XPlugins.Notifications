@@ -18,29 +18,25 @@ namespace SaturdayMP.XPlugins.Notifications
         /// <inheritdoc />
         public Guid Create(string title, string message)
         {
-            if (title == null) throw new ArgumentNullException(nameof(title));
-            if (message == null) throw new ArgumentNullException(nameof(message));
-
             throw new NotImplementedException("Should call the platform specific method.");
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, Dictionary<string, object> extraInfo)
+        public Guid Create(string title, string message, Dictionary<string, string> extraInfo)
         {
-            if (title == null) throw new ArgumentNullException(nameof(title));
-            if (message == null) throw new ArgumentNullException(nameof(message));
-            if (extraInfo == null) throw new ArgumentNullException(nameof(extraInfo));
-
             throw new NotImplementedException("Should call the platform specific method.");
         }
 
         /// <inheritdoc />
         public Guid Create(string title, string message, DateTime scheduleDate)
         {
-            if (title == null) throw new ArgumentNullException(nameof(title));
-            if (message == null) throw new ArgumentNullException(nameof(message));
-
             throw new NotImplementedException("Should call the platform specific method.");
+        }
+
+        /// <inheritdoc />
+        public Guid Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>

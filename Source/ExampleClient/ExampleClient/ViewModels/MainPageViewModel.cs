@@ -94,7 +94,7 @@ namespace ExampleClient.ViewModels
 
             if (IncludeExtraInfo)
             {
-                var extraInfo = new Dictionary<string, object> {{"ExtraInfoOne", ExtraInfoOne}, {"ExtraInfoTwo", ExtraInfoTwo}};
+                var extraInfo = new Dictionary<string, string> {{"ExtraInfoOne", ExtraInfoOne}, {"ExtraInfoTwo", ExtraInfoTwo}};
                 notificationId = _notificationScheduler.Create(title, message, extraInfo);
             }
             else
@@ -103,7 +103,6 @@ namespace ExampleClient.ViewModels
             }
 
             // Keep track of this scheduled notification.
-            var repo = new ScheduledNotificationRepository();
             ScheduledNotificationRepository.NotificationScheduled(notificationId, title, message, DateTime.Now, ExtraInfoOne, ExtraInfoTwo);
 
             // Add to the list of notifications.

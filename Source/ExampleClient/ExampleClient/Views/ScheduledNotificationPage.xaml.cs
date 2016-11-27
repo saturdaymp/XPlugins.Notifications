@@ -4,18 +4,25 @@ using ExampleClient.ViewModels;
 
 namespace ExampleClient.Views
 {
+    /// <summary>
+    ///     Shows a scheduled notification and if it's been recieved or or not.
+    /// </summary>
     public partial class ScheduledNotificationPage
     {
+        /// <summary>
+        ///     Creates a new page without a scheduled notification.
+        /// </summary>
         public ScheduledNotificationPage()
         {
             InitializeComponent();
         }
 
-        public ScheduledNotificationPage(Guid scheduledNotificationId)
+        /// <summary>
+        ///     Creates a new page with the scheduled notification loaded.
+        /// </summary>
+        /// <param name="scheduledNotificationId"></param>
+        public ScheduledNotificationPage(Guid scheduledNotificationId) : this()
         {
-            InitializeComponent();
-
-            var repo = new ScheduledNotificationRepository();
             var scheduledNotification = ScheduledNotificationRepository.FindNotification(scheduledNotificationId);
 
             BindingContext = new ScheduledNotificationViewModel

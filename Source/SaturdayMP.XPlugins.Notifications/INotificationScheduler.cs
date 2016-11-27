@@ -24,7 +24,7 @@ namespace SaturdayMP.XPlugins.Notifications
         /// <param name="message">The content of the notification.</param>
         /// <param name="extraInfo">Any extra information you want to include in the notification.</param>
         /// <returns>A unique ID for the notification scheduled.</returns>
-        Guid Create([NotNull] string title, [NotNull] string message, [NotNull] Dictionary<string, object> extraInfo);
+        Guid Create([NotNull] string title, [NotNull] string message, [NotNull] Dictionary<string, string> extraInfo);
 
         /// <summary>
         ///     Creates a new notification that is at the scheduled time.
@@ -34,5 +34,15 @@ namespace SaturdayMP.XPlugins.Notifications
         /// <param name="scheduleDate">When to show the notification.</param>
         /// <returns>A unique ID for the notification scheduled.</returns>
         Guid Create([NotNull] string title, [NotNull] string message, DateTime scheduleDate);
+
+        /// <summary>
+        ///     Creates a new notification to appear at the scheduled time.
+        /// </summary>
+        /// <param name="title">The title of the notification.</param>
+        /// <param name="message">The content of the notification.</param>
+        /// <param name="scheduleDate">When to show the notification.</param>
+        /// <param name="extraInfo">Any extra information you want to include in the notification.</param>
+        /// <returns>A unique ID for the notification scheduled.</returns>
+        Guid Create([NotNull] string title, [NotNull] string message, DateTime scheduleDate, [NotNull] Dictionary<string, string> extraInfo);
     }
 }

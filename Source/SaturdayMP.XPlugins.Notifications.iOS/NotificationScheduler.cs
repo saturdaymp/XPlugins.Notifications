@@ -24,11 +24,23 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         public Guid Create(string title, string message)
         {
             // Create a notification with no extra info.
-            return Create(title, message, new Dictionary<string, object>());
+            return Create(title, message, new Dictionary<string, string>());
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, Dictionary<string, object> extraInfo)
+        public Guid Create(string title, string message, Dictionary<string, string> extraInfo)
+        {
+            return Create(title, message, DateTime.Now, extraInfo);
+        }
+
+        /// <inheritdoc />
+        public Guid Create(string title, string message, DateTime scheduleDate)
+        {
+            return Create(title, message, new Dictionary<string, string>());
+        }
+
+        /// <inheritdoc />
+        public Guid Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
             // Make sure the extra info is supplied but can be empty.
             if (extraInfo == null) throw new ArgumentNullException(nameof(extraInfo));
@@ -45,22 +57,16 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                 AlertTitle = title,
                 AlertBody = message,
                 FireDate = NSDate.Now,
-                UserInfo = NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray(), extraInfo.Keys.Cast<object>().ToArray())
+                UserInfo = NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(), extraInfo.Keys.Cast<object>().ToArray())
             };
 
 
             // Schedule the notification.
             UIApplication.SharedApplication.ScheduleLocalNotification(notification);
 
-            
+
             // All done.
             return notificationId;
-        }
-
-        /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate)
-        {
-            return Create(title, message, new Dictionary<string, object>());
         }
 
         #endregion
