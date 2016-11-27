@@ -6,7 +6,7 @@ using Android.Content;
 namespace SaturdayMP.XPlugins.Notifications.Droid
 {
     /// <summary>
-    /// Used to schedule local notificaions in Android.
+    ///     Used to schedule local notificaions in Android.
     /// </summary>
     public class NotificationScheduler : INotificationScheduler
     {
@@ -56,7 +56,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // Figure out the alaram in milliseconds.
             var utcTime = TimeZoneInfo.ConvertTimeToUtc(scheduleDate);
             var epochDif = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
-            var notifyTimeInInMilliseconds = utcTime.AddSeconds(-epochDif).Ticks / 10000;
+            var notifyTimeInInMilliseconds = utcTime.AddSeconds(-epochDif).Ticks/10000;
 
 
             // Set the notification.
