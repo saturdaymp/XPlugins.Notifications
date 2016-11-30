@@ -39,6 +39,18 @@ namespace SaturdayMP.XPlugins.Notifications
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc />
+        public Notification Find(Guid notificationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public void Cancel(Guid notificationId)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///     Used to register a <see cref="INotificationListener" /> to handle
         ///     incoming notifications.

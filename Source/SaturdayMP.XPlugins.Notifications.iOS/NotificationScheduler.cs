@@ -69,6 +69,18 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             return notificationId;
         }
 
+        /// <inheritdoc />
+        public Notification Find(Guid notificationId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <inheritdoc />
+        public void Cancel(Guid notificationId)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
 
         #region Recieved Notification

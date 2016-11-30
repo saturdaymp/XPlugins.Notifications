@@ -9,6 +9,32 @@ namespace SaturdayMP.XPlugins.Notifications
     /// </summary>
     public interface INotificationScheduler
     {
+        #region Exists
+
+        /// <summary>
+        ///     Finds a specific notification.
+        /// </summary>
+        /// <param name="notificationId">The notification to find.</param>
+        Notification Find(Guid notificationId);
+
+        #endregion
+
+        #region Cancel
+
+        /// <summary>
+        ///     Cancels an existing notification.
+        /// </summary>
+        /// <param name="notificationId">The notification to cancel.</param>
+        /// <remarks>
+        ///     If the notification exists it will be canceled.  If the notification does
+        ///     not exist then it has been canceled so no need to raise an error.
+        /// </remarks>
+        void Cancel(Guid notificationId);
+
+        #endregion
+
+        #region Create
+
         /// <summary>
         ///     Creates a new notification that is shown now.
         /// </summary>
@@ -44,5 +70,7 @@ namespace SaturdayMP.XPlugins.Notifications
         /// <param name="extraInfo">Any extra information you want to include in the notification.</param>
         /// <returns>A unique ID for the notification scheduled.</returns>
         Guid Create([NotNull] string title, [NotNull] string message, DateTime scheduleDate, [NotNull] Dictionary<string, string> extraInfo);
+
+        #endregion
     }
 }
