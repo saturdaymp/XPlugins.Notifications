@@ -15,7 +15,7 @@
             <Button Command="{Binding ScheduleNowCommand}" Text="Schedule Now" />
         </StackLayout>
         <StackLayout>
-            <Button Text="Schedule in 2 Mins" />
+            <Button Command="{Binding ScheduleTwoMinutesCommand}" Text="Schedule in 2 Mins" />
         </StackLayout>
         <StackLayout Orientation="Vertical">
             <StackLayout Orientation="Horizontal">

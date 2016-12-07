@@ -1,6 +1,5 @@
 using System;
 using NUnit.Framework;
-using UIKit;
 
 namespace SaturdayMP.XPlugins.Notifications.Tests.iOS.NotificationSchedulerTests
 {
