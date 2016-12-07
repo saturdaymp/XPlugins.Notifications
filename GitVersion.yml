@@ -3,6 +3,6 @@ branches:
     mode: ContinuousDeployment
     tag: unstable
   releases?[/-]:
-    tag: ''
+    tag: 'beta'
 ignore:
   sha: []
