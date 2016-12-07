@@ -14,18 +14,6 @@ namespace ExampleClient.ViewModels
 {
     internal sealed class MainPageViewModel : INotifyPropertyChanged
     {
-        public MainPageViewModelScheduledNotification SelectedScheduledNotification
-        {
-            get { return null; }
-            set
-            {
-                OnPropertyChanged();
-
-                if (value != null)
-                    _navigation.PushAsync(new ScheduledNotificationPage(new Guid(value.Text)));
-            }
-        }
-
         #region Fields
 
         /// <summary>
@@ -81,7 +69,6 @@ namespace ExampleClient.ViewModels
         [UsedImplicitly]
         public ICommand ScheduleNowCommand { get; set; }
 
-
         /// <summary>
         ///     Schedule a notification for now.  If there is extra info then include it.
         /// </summary>
@@ -90,7 +77,6 @@ namespace ExampleClient.ViewModels
             ScheduleNotification(DateTime.Now);
         }
 
-        
         /// <summary>
         ///     Schedule a notification for 2 minutes.
         /// </summary>
@@ -228,6 +214,22 @@ namespace ExampleClient.ViewModels
 
                 _scheduledNotifications = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     What notification is selected.  Always returns null so the same
+        ///     notification can be triggered again.
+        /// </summary>
+        public MainPageViewModelScheduledNotification SelectedScheduledNotification
+        {
+            get { return null; }
+            set
+            {
+                OnPropertyChanged();
+
+                if (value != null)
+                    _navigation.PushAsync(new ScheduledNotificationPage(new Guid(value.Text)));
             }
         }
 
