@@ -18,8 +18,50 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         /// </summary>
         private const string NotificationIdKey = "notificationidkey";
 
+        #region Cancel
+
+        /// <inheritdoc />
+        public void Cancel(Guid notificationId)
+        {
+            // If we make UI calls outside of the main thread then an exception
+            // will be thrown.  So make sure we are in the main thread.
+            if (!NSThread.IsMain)
+            {
+                UIApplication.SharedApplication.InvokeOnMainThread(() => Cancel(notificationId));
+
+                return;
+            }
+
+
+            // Find the notification then cancel it.
+            var foundUiNotification = FindUiNotifiaction(notificationId);
+            if (foundUiNotification != null)
+                UIApplication.SharedApplication.CancelLocalNotification(foundUiNotification);
+        }
+
+        #endregion
+
+        #region Recieved Notification
+
+        /// <summary>
+        ///     A iOS notification was recieved.
+        /// </summary>
+        /// <param name="localNotification">The notifictaion recieved by iOS.</param>
+        /// <remarks>
+        ///     Take the iOS notification and transform it into a <see cref="SaturdayMP.XPlugins.Notifications.Notification" />
+        ///     befoce calling <see cref="SaturdayMP.XPlugins.Notifications.NotificationScheduler.Recieved(Notification)" />.
+        /// </remarks>
+        public static void Recieved(UILocalNotification localNotification)
+        {
+            var notification = ConvertToNotification(localNotification);
+
+            Notifications.NotificationScheduler.Recieved(notification);
+        }
+
+        #endregion
+
         #region Create
-        
+
         /// <inheritdoc />
         public Guid Create(string title, string message)
         {
@@ -62,12 +104,14 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             extraInfo.Add(NotificationIdKey, notificationId.ToString("N"));
 
 
-            // Create the iOS notification.
+            // Create the iOS notification.  Make sure you 
+            // convert the schedule date to a local date so the
+            // NSDate will be create.
             var notification = new UILocalNotification
             {
                 AlertTitle = title,
                 AlertBody = message,
-                FireDate = (NSDate) scheduleDate,
+                FireDate = (NSDate) DateTime.SpecifyKind(scheduleDate, DateTimeKind.Local),
                 UserInfo = NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(), extraInfo.Keys.Cast<object>().ToArray())
             };
 
@@ -100,7 +144,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             // Try to find the UI notification.  If we find it then convert it
             // to a notification.
             var foundNotification = FindUiNotifiaction(notificationId);
-            return foundNotification == null ? null : ConvertUiNotification(foundNotification);
+            return foundNotification == null ? null : ConvertToNotification(foundNotification);
         }
 
         // TODO: Comments
@@ -111,15 +155,9 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             // find past notifications.
             var localNotifications = UIApplication.SharedApplication.ScheduledLocalNotifications;
             foreach (var ln in localNotifications)
-            {
                 if (ln.UserInfo.ContainsKey((NSString) NotificationIdKey))
-                {
                     if ((NSString) ln.UserInfo[NotificationIdKey] == notificationId.ToString("N"))
-                    {
                         return ln;
-                    }
-                }
-            }
 
             // Didn't find the notification.
             return null;
@@ -127,53 +165,12 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
 
         #endregion
 
-        #region Cancel
-
-        /// <inheritdoc />
-        public void Cancel(Guid notificationId)
-        {
-            // If we make UI calls outside of the main thread then an exception
-            // will be thrown.  So make sure we are in the main thread.
-            if (!NSThread.IsMain)
-            {
-                UIApplication.SharedApplication.InvokeOnMainThread(() => Cancel(notificationId));
-
-                return;
-            }
-
-            
-            // Find the notification then cancel it.
-            var foundUiNotification = FindUiNotifiaction(notificationId);
-            if (foundUiNotification != null)
-            {
-                UIApplication.SharedApplication.CancelLocalNotification(foundUiNotification);
-            }
-        }
-
-        #endregion
-
-
-        #region Recieved Notification
-
-        /// <summary>
-        ///     A iOS notification was recieved.
-        /// </summary>
-        /// <param name="localNotification">The notifictaion recieved by iOS.</param>
-        /// <remarks>
-        ///     Take the iOS notification and transform it into a <see cref="SaturdayMP.XPlugins.Notifications.Notification" />
-        ///     befoce calling <see cref="SaturdayMP.XPlugins.Notifications.NotificationScheduler.Recieved(Notification)" />.
-        /// </remarks>
-        public static void Recieved(UILocalNotification localNotification)
-        {
-            var notification = ConvertUiNotification(localNotification);
-
-            Notifications.NotificationScheduler.Recieved(notification);
-        }
+        #region Conversion
 
         /// <summary>
         ///     Converts a <see cref="UILocalNotification" /> to a <see cref="Notification" />
         /// </summary>
-        /// <param name="localNotification">
+        /// <param name="uiNotification">
         ///     The local notification to convert to a
         ///     <see cref="Notification" />
         /// </param>
@@ -182,18 +179,18 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         ///     For more information about the extra info types
         ///     supported see <see cref="CastNsObject" />.
         /// </remarks>
-        private static Notification ConvertUiNotification(UILocalNotification localNotification)
+        private static Notification ConvertToNotification(UILocalNotification uiNotification)
         {
             // Copy over the title and message.
             var notification = new Notification
             {
-                Title = localNotification.AlertTitle,
-                Message = localNotification.AlertBody
+                Title = uiNotification.AlertTitle,
+                Message = uiNotification.AlertBody
             };
 
             // Get the extra info.
             var d = new Dictionary<string, object>();
-            foreach (var item in localNotification.UserInfo)
+            foreach (var item in uiNotification.UserInfo)
                 d.Add((NSString) item.Key, CastNsObject(item.Value));
             notification.ExtraInfo = d;
 

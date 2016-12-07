@@ -1,8 +1,8 @@
 branches:
   master:
     mode: ContinuousDeployment
-    tag: unstable
+    tag: 'alpha'
   releases?[/-]:
-    tag: ''
+    tag: 'beta'
 ignore:
   sha: []

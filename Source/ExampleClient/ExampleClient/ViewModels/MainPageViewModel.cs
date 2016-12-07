@@ -14,18 +14,6 @@ namespace ExampleClient.ViewModels
 {
     internal sealed class MainPageViewModel : INotifyPropertyChanged
     {
-        public MainPageViewModelScheduledNotification SelectedScheduledNotification
-        {
-            get { return null; }
-            set
-            {
-                OnPropertyChanged();
-
-                if (value != null)
-                    _navigation.PushAsync(new ScheduledNotificationPage(new Guid(value.Text)));
-            }
-        }
-
         #region Fields
 
         /// <summary>
@@ -52,6 +40,7 @@ namespace ExampleClient.ViewModels
 
             // Commands used to schedule notifications.
             ScheduleNowCommand = new Command(ScheduleNow);
+            ScheduleTwoMinutesCommand = new Command(ScheduleTwoMinuteNotification);
 
             // No extra info by default.
             IncludeExtraInfo = false;
@@ -72,7 +61,7 @@ namespace ExampleClient.ViewModels
 
         #endregion
 
-        #region Schedule Now
+        #region Schedule Notification
 
         /// <summary>
         ///     Schedule a notification for now.
@@ -85,30 +74,55 @@ namespace ExampleClient.ViewModels
         /// </summary>
         private void ScheduleNow()
         {
+            ScheduleNotification(DateTime.Now);
+        }
+
+        /// <summary>
+        ///     Schedule a notification for 2 minutes.
+        /// </summary>
+        [UsedImplicitly]
+        public ICommand ScheduleTwoMinutesCommand { get; set; }
+
+        /// <summary>
+        ///     Schedule a notification for two minutes for now.  If there is
+        ///     extra info then include it.
+        /// </summary>
+        private void ScheduleTwoMinuteNotification()
+        {
+            ScheduleNotification(DateTime.Today.AddMinutes(2));
+        }
+
+        /// <summary>
+        ///     Schedule a notification on the scheduled date.  If there is extra
+        ///     notification info then include that in the notification.
+        /// </summary>
+        /// <param name="scheduledDate">The date and time you want the notification to appear.</param>
+        private void ScheduleNotification(DateTime scheduledDate)
+        {
             Guid notificationId;
+
+            // Setup the date and the messages.
+            const string title = "Scheduled Now";
+            var message = $"Created: {DateTime.Now:G}, Scheduled: {scheduledDate:G}";
 
             // Check if the extra info should be included when sending the notification
             // then schedule the notification.
-            const string title = "Scheduled Now";
-            var message = $"Created: {DateTime.Now:G}, Scheduled: {DateTime.Now:G}";
-
             if (IncludeExtraInfo)
             {
-                var extraInfo = new Dictionary<string, string> {{"ExtraInfoOne", ExtraInfoOne}, {"ExtraInfoTwo", ExtraInfoTwo}};
-                notificationId = _notificationScheduler.Create(title, message, extraInfo);
+                var extraInfo = new Dictionary<string, string> { { "ExtraInfoOne", ExtraInfoOne }, { "ExtraInfoTwo", ExtraInfoTwo } };
+                notificationId = _notificationScheduler.Create(title, message, scheduledDate, extraInfo);
             }
             else
             {
-                notificationId = _notificationScheduler.Create(title, message);
+                notificationId = _notificationScheduler.Create(title, message, scheduledDate);
             }
 
             // Keep track of this scheduled notification.
-            ScheduledNotificationRepository.NotificationScheduled(notificationId, title, message, DateTime.Now, ExtraInfoOne, ExtraInfoTwo);
+            ScheduledNotificationRepository.NotificationScheduled(notificationId, title, message, scheduledDate, ExtraInfoOne, ExtraInfoTwo);
 
             // Add to the list of notifications.
-            ScheduledNotifications.Add(new MainPageViewModelScheduledNotification {Text = notificationId.ToString()});
+            ScheduledNotifications.Add(new MainPageViewModelScheduledNotification { Text = notificationId.ToString() });
         }
-
         #endregion
 
         #region ExtraInfo
@@ -200,6 +214,22 @@ namespace ExampleClient.ViewModels
 
                 _scheduledNotifications = value;
                 OnPropertyChanged();
+            }
+        }
+
+        /// <summary>
+        ///     What notification is selected.  Always returns null so the same
+        ///     notification can be triggered again.
+        /// </summary>
+        public MainPageViewModelScheduledNotification SelectedScheduledNotification
+        {
+            get { return null; }
+            set
+            {
+                OnPropertyChanged();
+
+                if (value != null)
+                    _navigation.PushAsync(new ScheduledNotificationPage(new Guid(value.Text)));
             }
         }
 
