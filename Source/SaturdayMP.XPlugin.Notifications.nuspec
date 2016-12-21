@@ -12,7 +12,7 @@
         <description>Plugin for creating and handling notifications in Xamarin Forms applications.</description>
     </metadata>
     <files>
-		<file src="SaturdayMP.XPlugins.Notifications\bin\Release\SaturdayMP.XPlugins.Notifications.dll" target="lib" />
+		<file src="SaturdayMP.XPlugins.Notifications\bin\Release\SaturdayMP.XPlugins.Notifications.dll" target="lib\portable-net45+win8+wpa81" />
 		
 		<file src="SaturdayMP.XPlugins.Notifications\bin\Release\SaturdayMP.XPlugins.Notifications.dll" target="lib\MonoAndroid10" />
         <file src="SaturdayMP.XPlugins.Notifications.Droid\bin\Release\SaturdayMP.XPlugins.Notifications.Droid.dll" target="lib\MonoAndroid10" />
