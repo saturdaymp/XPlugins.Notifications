@@ -21,7 +21,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         #region Cancel
 
         /// <inheritdoc />
-        public void Cancel(Guid notificationId)
+        public void Cancel(string notificationId)
         {
             // If we make UI calls outside of the main thread then an exception
             // will be thrown.  So make sure we are in the main thread.
@@ -63,32 +63,32 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         #region Create
 
         /// <inheritdoc />
-        public Guid Create(string title, string message)
+        public string Create(string title, string message)
         {
             // Create a notification with no extra info.
             return Create(title, message, new Dictionary<string, string>());
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, Dictionary<string, string> extraInfo)
+        public string Create(string title, string message, Dictionary<string, string> extraInfo)
         {
             return Create(title, message, DateTime.Now, extraInfo);
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate)
+        public string Create(string title, string message, DateTime scheduleDate)
         {
             return Create(title, message, scheduleDate, new Dictionary<string, string>());
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
+        public string Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
             // If we make UI calls outside of the main thread then an exception
             // will be thrown.  So make sure we are in the main thread.
             if (!NSThread.IsMain)
             {
-                var returnNotificationId = new Guid();
+                var returnNotificationId = "";
                 UIApplication.SharedApplication.InvokeOnMainThread(() => returnNotificationId = Create(title, message, scheduleDate, extraInfo));
 
                 return returnNotificationId;
@@ -100,8 +100,8 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
 
 
             // Create the unique ID for this notification.
-            var notificationId = Guid.NewGuid();
-            extraInfo.Add(NotificationIdKey, notificationId.ToString("N"));
+            var notificationId = Guid.NewGuid().ToString();
+            extraInfo.Add(NotificationIdKey, notificationId);
 
 
             // Create the iOS notification.  Make sure you 
@@ -129,7 +129,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         #region Find
 
         /// <inheritdoc />
-        public Notification Find(Guid notificationId)
+        public Notification Find(string notificationId)
         {
             // If we make UI calls outside of the main thread then an exception
             // will be thrown.  So make sure we are in the main thread.
@@ -148,7 +148,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         }
 
         // TODO: Comments
-        private static UILocalNotification FindUiNotifiaction(Guid notificationId)
+        private static UILocalNotification FindUiNotifiaction(string notificationId)
         {
             // Loop through all the notifications looking for ours.  Note that the local
             // notifications list only contains notifications that are in the future.  You won't
@@ -156,7 +156,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             var localNotifications = UIApplication.SharedApplication.ScheduledLocalNotifications;
             foreach (var ln in localNotifications)
                 if (ln.UserInfo.ContainsKey((NSString) NotificationIdKey))
-                    if ((NSString) ln.UserInfo[NotificationIdKey] == notificationId.ToString("N"))
+                    if ((NSString) ln.UserInfo[NotificationIdKey] == notificationId)
                         return ln;
 
             // Didn't find the notification.

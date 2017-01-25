@@ -31,7 +31,7 @@ namespace SaturdayMP.XPlugins.Notifications.Tests.Droid.NotificationSchedulerTes
         public void NotificationDoesNotExist()
         {
             var scheduler = new Notifications.Droid.NotificationScheduler();
-            scheduler.Cancel(new Guid());
+            scheduler.Cancel("blah");
         }
     }
 }

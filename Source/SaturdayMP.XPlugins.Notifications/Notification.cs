@@ -26,7 +26,7 @@ namespace SaturdayMP.XPlugins.Notifications
         /// <summary>
         ///     The unique ID of the notification.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         ///     The message of the notification.

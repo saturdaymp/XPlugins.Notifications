@@ -17,7 +17,7 @@ namespace ExampleClient.Repositories
         /// <param name="scheduledFor">When the notification is scheduled for.</param>
         /// <param name="extraInfoOne">The 1st extra infor scheduled for this notification.</param>
         /// <param name="extraInfoTwo">The 2nd extra infor scheduled for this notification.</param>
-        public static void NotificationScheduled(Guid id, string title, string message, DateTime scheduledFor, string extraInfoOne, string extraInfoTwo)
+        public static void NotificationScheduled(string id, string title, string message, DateTime scheduledFor, string extraInfoOne, string extraInfoTwo)
         {
             var newScheduledNotification = new ScheduledNotificationModel
             {
@@ -47,7 +47,7 @@ namespace ExampleClient.Repositories
         /// <param name="message">The mesage of the notification received.</param>
         /// <param name="extraInfoOne">The extra info of the recieved notification.</param>
         /// <param name="extraInfoTwo">The extra info of the recieved notification.</param>
-        public static void NotificationRecieved(Guid id, string title, string message, string extraInfoOne, string extraInfoTwo)
+        public static void NotificationRecieved(string id, string title, string message, string extraInfoOne, string extraInfoTwo)
         {
             // See if the notification was scheduled.  If we don't find one then create a new one.
             var existingScheduledNotification = ScheduledNotifications.SingleOrDefault(x => x.Id == id);
@@ -73,7 +73,7 @@ namespace ExampleClient.Repositories
         /// </summary>
         /// <param name="id">The ID of the notification to find.</param>
         /// <returns>The scheduled notification or null if the notification does not exist.</returns>
-        public static ScheduledNotificationModel FindNotification(Guid id)
+        public static ScheduledNotificationModel FindNotification(string id)
         {
             return ScheduledNotifications.SingleOrDefault(x => x.Id == id);
         }

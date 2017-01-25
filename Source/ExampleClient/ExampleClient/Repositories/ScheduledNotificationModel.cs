@@ -10,7 +10,7 @@ namespace ExampleClient.Repositories
         /// <summary>
         ///     The unique identifier for this notification.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         /// <summary>
         ///     Return the ID as string.

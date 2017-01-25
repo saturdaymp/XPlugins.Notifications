@@ -99,7 +99,7 @@ namespace ExampleClient.ViewModels
         /// <param name="scheduledDate">The date and time you want the notification to appear.</param>
         private void ScheduleNotification(DateTime scheduledDate)
         {
-            Guid notificationId;
+            string notificationId;
 
             // Setup the date and the messages.
             const string title = "Scheduled Now";
@@ -229,7 +229,7 @@ namespace ExampleClient.ViewModels
                 OnPropertyChanged();
 
                 if (value != null)
-                    _navigation.PushAsync(new ScheduledNotificationPage(new Guid(value.Text)));
+                    _navigation.PushAsync(new ScheduledNotificationPage(value.Text));
             }
         }
 

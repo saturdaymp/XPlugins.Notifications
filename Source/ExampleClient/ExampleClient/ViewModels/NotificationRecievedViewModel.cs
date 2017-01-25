@@ -11,7 +11,7 @@ namespace ExampleClient.ViewModels
         /// <summary>
         ///     The id of the recieved notification.
         /// </summary>
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string IdAsString { get; set; }
 

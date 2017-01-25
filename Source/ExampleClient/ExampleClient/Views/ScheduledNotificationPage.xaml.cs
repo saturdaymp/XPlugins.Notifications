@@ -21,7 +21,7 @@ namespace ExampleClient.Views
         ///     Creates a new page with the scheduled notification loaded.
         /// </summary>
         /// <param name="scheduledNotificationId"></param>
-        public ScheduledNotificationPage(Guid scheduledNotificationId) : this()
+        public ScheduledNotificationPage(string scheduledNotificationId) : this()
         {
             var scheduledNotification = ScheduledNotificationRepository.FindNotification(scheduledNotificationId);
 

@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications.Tests.iOS.NotificationSchedulerTests
         public void NotificationDoesNotExist()
         {
             var scheduler = new Notifications.iOS.NotificationScheduler();
-            Assert.That(() =>  scheduler.Find(new Guid()), Is.Null);
+            Assert.That(() =>  scheduler.Find("Blah"), Is.Null);
         }
 
         /// <summary>

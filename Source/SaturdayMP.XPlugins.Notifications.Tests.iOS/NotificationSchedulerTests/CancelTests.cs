@@ -31,7 +31,7 @@ namespace SaturdayMP.XPlugins.Notifications.Tests.iOS.NotificationSchedulerTests
         public void NotificationDoesNotExist()
         {
             var scheduler = new Notifications.iOS.NotificationScheduler();
-            scheduler.Cancel(new Guid());
+            scheduler.Cancel("Blah");
         }
     }
 }

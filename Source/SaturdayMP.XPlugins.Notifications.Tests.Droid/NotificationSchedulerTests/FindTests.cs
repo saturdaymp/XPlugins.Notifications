@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications.Tests.Droid.NotificationSchedulerTes
         public void NotificationDoesNotExist()
         {
             var scheduler = new Notifications.Droid.NotificationScheduler();
-            Assert.That(() => scheduler.Find(new Guid()), Is.Null);
+            Assert.That(() => scheduler.Find("blah"), Is.Null);
         }
 
         /// <summary>

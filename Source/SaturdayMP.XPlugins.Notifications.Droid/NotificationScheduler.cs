@@ -19,7 +19,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
         #region Cancel
 
         /// <inheritdoc />
-        public void Cancel(Guid notificationId)
+        public void Cancel(string notificationId)
         {
             // Find the intent.  If we don't find one then
             // nothing to cancel.
@@ -40,28 +40,28 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
         #region Create
 
         /// <inheritdoc />
-        public Guid Create(string title, string message)
+        public string Create(string title, string message)
         {
             return Create(title, message, DateTime.Now);
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, Dictionary<string, string> extraInfo)
+        public string Create(string title, string message, Dictionary<string, string> extraInfo)
         {
             return Create(title, message, DateTime.Now, extraInfo);
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate)
+        public string Create(string title, string message, DateTime scheduleDate)
         {
             return Create(title, message, scheduleDate, new Dictionary<string, string>());
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
+        public string Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
             // Create the unique identifier for this notifications.
-            var notificationId = Guid.NewGuid();
+            var notificationId = Guid.NewGuid().ToString();
 
 
             // Create the intent to be called when the alarm triggers.  Make sure
@@ -94,7 +94,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
         #region Find
 
         /// <inheritdoc />
-        public Notification Find(Guid notificationId)
+        public Notification Find(string notificationId)
         {
             // Find the inent, if it exists.  If it dosen't exist then
             // return null.
@@ -120,7 +120,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
         /// </param>
         /// <returns>The found intent or null if the intent can't be found.</returns>
         [CanBeNull]
-        private static Intent FindIntent(Guid notificationId)
+        private static Intent FindIntent(string notificationId)
         {
             // Find the pending intent.
             var foundPendingIntent = FindPendingInetnt(notificationId);
@@ -139,14 +139,14 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
         /// </param>
         /// <returns></returns>
         [CanBeNull]
-        private static PendingIntent FindPendingInetnt(Guid notificationId)
+        private static PendingIntent FindPendingInetnt(string notificationId)
         {
             // Intent we want to find.  Should have the action set to the GUID to make it unquie.
             // Not that we don't have to set the extra info.  The things that make a intent unquie
             // are the action, data, type of data, package/component, and catagories.  In our case
             // we only set the action to the notification GUID.
             var intentToFind = new Intent(Application.Context, typeof(NotificationAlarmHandler));
-            intentToFind.SetAction($"{notificationId:N}");
+            intentToFind.SetAction(notificationId);
 
             // Try to find the intend.
             return PendingIntent.GetBroadcast(Application.Context, 0, intentToFind, PendingIntentFlags.NoCreate);

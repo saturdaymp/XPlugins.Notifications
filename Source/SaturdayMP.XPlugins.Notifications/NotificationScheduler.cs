@@ -16,37 +16,37 @@ namespace SaturdayMP.XPlugins.Notifications
         private static INotificationListener _listener;
 
         /// <inheritdoc />
-        public Guid Create(string title, string message)
+        public string Create(string title, string message)
         {
             throw new NotImplementedException("Should call the platform specific method.");
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, Dictionary<string, string> extraInfo)
+        public string Create(string title, string message, Dictionary<string, string> extraInfo)
         {
             throw new NotImplementedException("Should call the platform specific method.");
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate)
+        public string Create(string title, string message, DateTime scheduleDate)
         {
             throw new NotImplementedException("Should call the platform specific method.");
         }
 
         /// <inheritdoc />
-        public Guid Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
+        public string Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public Notification Find(Guid notificationId)
+        public Notification Find(string notificationId)
         {
             throw new NotImplementedException();
         }
 
         /// <inheritdoc />
-        public void Cancel(Guid notificationId)
+        public void Cancel(string notificationId)
         {
             throw new NotImplementedException();
         }
