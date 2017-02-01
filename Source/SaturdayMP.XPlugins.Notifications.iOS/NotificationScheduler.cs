@@ -89,7 +89,8 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             if (!NSThread.IsMain)
             {
                 var returnNotificationId = "";
-                UIApplication.SharedApplication.InvokeOnMainThread(() => returnNotificationId = Create(title, message, scheduleDate, extraInfo));
+                UIApplication.SharedApplication.InvokeOnMainThread(
+                    () => returnNotificationId = Create(title, message, scheduleDate, extraInfo));
 
                 return returnNotificationId;
             }
@@ -112,7 +113,9 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                 AlertTitle = title,
                 AlertBody = message,
                 FireDate = (NSDate) DateTime.SpecifyKind(scheduleDate, DateTimeKind.Local),
-                UserInfo = NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(), extraInfo.Keys.Cast<object>().ToArray())
+                UserInfo =
+                    NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(),
+                        extraInfo.Keys.Cast<object>().ToArray())
             };
 
 
@@ -147,7 +150,14 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
             return foundNotification == null ? null : ConvertToNotification(foundNotification);
         }
 
-        // TODO: Comments
+        /// <summary>
+        ///     Finds an existing notification.
+        /// </summary>
+        /// <param name="notificationId">Then notification to find.</param>
+        /// <returns>The found notification or null if the notification was not found.</returns>
+        /// <remarks>
+        ///     If the notification has already passed then it won't be found.
+        /// </remarks>
         private static UILocalNotification FindUiNotifiaction(string notificationId)
         {
             // Loop through all the notifications looking for ours.  Note that the local

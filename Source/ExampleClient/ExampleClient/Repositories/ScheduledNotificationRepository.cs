@@ -77,5 +77,22 @@ namespace ExampleClient.Repositories
         {
             return ScheduledNotifications.SingleOrDefault(x => x.Id == id);
         }
+
+        /// <summary>
+        ///     An existing notification was canceled.
+        /// </summary>
+        /// <param name="id">The ID of the notification that was canceled.</param>
+        /// <param name="cancelationTime">When the notification was canceled.</param>
+        /// <exception cref="Exception">Raised if notification can't be found.</exception>
+        public static void NotificationCancled(string id, DateTime cancelationTime)
+        {
+            var existingScheduledNotification = ScheduledNotifications.SingleOrDefault(x => x.Id == id);
+            if (existingScheduledNotification == null)
+            {
+                throw new Exception($"Failed to find notification with ID {id} to cancel.");
+            }
+
+            existingScheduledNotification.CanceledOn = cancelationTime;
+        }
     }
 }

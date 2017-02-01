@@ -1,5 +1,4 @@
-﻿using System;
-using ExampleClient.Repositories;
+﻿using ExampleClient.Repositories;
 using ExampleClient.ViewModels;
 
 namespace ExampleClient.Views
@@ -27,19 +26,20 @@ namespace ExampleClient.Views
 
             BindingContext = new ScheduledNotificationViewModel
             {
-                Id = scheduledNotification.Id.ToString(),
+                Id = scheduledNotification.Id,
                 NumberOfTimesRecieved = scheduledNotification.NumberTimesRecieved,
                 CreatedOn = scheduledNotification.CreatedOn.ToString("G"),
                 ScheduledFor = scheduledNotification.ScheduledFor.ToString("G"),
                 RecievedOn = scheduledNotification.LastRecievedOn?.ToString("G") ?? "",
-                ScheduledTitle = scheduledNotification.ScheduledDetails?.Title,
-                RecievedTitle = scheduledNotification.RecievedDetails?.Title,
-                ScheduledMessage = scheduledNotification.ScheduledDetails?.Message,
-                RecivedMessage = scheduledNotification.RecievedDetails?.Message,
-                ScheduledExtraInfoOne = scheduledNotification.ScheduledDetails?.ExtraInfoOne,
-                RecivedExtraInfoOne = scheduledNotification.RecievedDetails?.ExtraInfoOne,
-                ScheduledExtraInfoTwo = scheduledNotification.ScheduledDetails?.ExtraInfoTwo,
-                RecivedExtraInfoTwo = scheduledNotification.RecievedDetails?.ExtraInfoTwo
+                ScheduledTitle = scheduledNotification.ScheduledDetails?.Title ?? "",
+                RecievedTitle = scheduledNotification.RecievedDetails?.Title ?? "",
+                ScheduledMessage = scheduledNotification.ScheduledDetails?.Message ?? "",
+                RecivedMessage = scheduledNotification.RecievedDetails?.Message ?? "",
+                ScheduledExtraInfoOne = scheduledNotification.ScheduledDetails?.ExtraInfoOne ?? "",
+                RecivedExtraInfoOne = scheduledNotification.RecievedDetails?.ExtraInfoOne ?? "",
+                ScheduledExtraInfoTwo = scheduledNotification.ScheduledDetails?.ExtraInfoTwo ?? "",
+                RecivedExtraInfoTwo = scheduledNotification.RecievedDetails?.ExtraInfoTwo ?? "",
+                CanceledOn = scheduledNotification.CanceledOn?.ToString("G") ?? ""
             };
         }
     }

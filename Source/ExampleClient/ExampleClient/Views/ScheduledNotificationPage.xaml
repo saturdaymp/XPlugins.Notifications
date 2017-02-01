@@ -47,6 +47,11 @@
             <Label Text="Recived Extra Info Two" />
             <Entry Text="{Binding RecivedExtraInfoTwo}" />
 
+            <Button Text="Cancel" Command="{Binding CancelNotificationCommand}" />
+
+            <Label Text="Canceled On" />
+            <Entry Text="{Binding CanceledOn, Mode=TwoWay}" />
+
         </StackLayout>
     </ScrollView>
 

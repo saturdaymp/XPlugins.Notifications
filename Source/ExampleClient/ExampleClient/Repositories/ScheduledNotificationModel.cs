@@ -15,7 +15,7 @@ namespace ExampleClient.Repositories
         /// <summary>
         ///     Return the ID as string.
         /// </summary>
-        public string IdAsString => Id.ToString();
+        public string IdAsString => Id;
 
         /// <summary>
         ///     The number of times the notification has been recieved.
@@ -47,5 +47,10 @@ namespace ExampleClient.Repositories
         ///     values from the latest notification with this ID that was recieved.
         /// </summary>
         public NotificationDetailsModel RecievedDetails { get; set; }
+
+        /// <summary>
+        ///     The time the notification was canceled.
+        /// </summary>
+        public DateTime? CanceledOn { get; set; }
     }
 }

@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using ExampleClient.Repositories;
 using ExampleClient.Views;
@@ -12,7 +10,7 @@ using Xamarin.Forms;
 
 namespace ExampleClient.ViewModels
 {
-    internal sealed class MainPageViewModel : INotifyPropertyChanged
+    internal sealed class MainPageViewModel : PageViewModelBase
     {
         #region Fields
 
@@ -89,7 +87,7 @@ namespace ExampleClient.ViewModels
         /// </summary>
         private void ScheduleTwoMinuteNotification()
         {
-            ScheduleNotification(DateTime.Today.AddMinutes(2));
+            ScheduleNotification(DateTime.Now.AddMinutes(2));
         }
 
         /// <summary>
@@ -121,7 +119,7 @@ namespace ExampleClient.ViewModels
             ScheduledNotificationRepository.NotificationScheduled(notificationId, title, message, scheduledDate, ExtraInfoOne, ExtraInfoTwo);
 
             // Add to the list of notifications.
-            ScheduledNotifications.Add(new MainPageViewModelScheduledNotification { Text = notificationId.ToString() });
+            ScheduledNotifications.Add(new MainPageViewModelScheduledNotification { Text = notificationId });
         }
         #endregion
 
@@ -231,22 +229,6 @@ namespace ExampleClient.ViewModels
                 if (value != null)
                     _navigation.PushAsync(new ScheduledNotificationPage(value.Text));
             }
-        }
-
-        #endregion
-
-        #region  Property Changed Handler
-
-        /// <summary>
-        ///     Used to handled view model changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <inheritdoc />
-        [NotifyPropertyChangedInvocator]
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         #endregion

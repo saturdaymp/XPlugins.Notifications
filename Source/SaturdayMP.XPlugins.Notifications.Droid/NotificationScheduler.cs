@@ -68,7 +68,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // to add the id so we can find it later if the user wants to update or
             // cancel.
             var alarmIntent = new Intent(Application.Context, typeof(NotificationAlarmHandler));
-            alarmIntent.SetAction($"{notificationId:N}");
+            alarmIntent.SetAction($"{notificationId}");
             alarmIntent.PutExtra("title", title);
             alarmIntent.PutExtra("message", message);
 

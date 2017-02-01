@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ExampleClient.ViewModels
+﻿namespace ExampleClient.ViewModels
 {
     /// <summary>
     ///     View model for the Notification Display page.  Has
