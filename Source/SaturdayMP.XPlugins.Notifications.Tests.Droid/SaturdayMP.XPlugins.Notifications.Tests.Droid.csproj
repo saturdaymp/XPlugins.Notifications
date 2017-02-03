@@ -116,8 +116,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainActivity.cs" />
-    <Compile Include="NotificationSchedulerTests\CancelTests.cs" />
-    <Compile Include="NotificationSchedulerTests\FindTests.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -150,6 +148,7 @@
       <Name>SaturdayMP.XPlugins.Notifications</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\SaturdayMP.XPlugins.Notifications.Tests\SaturdayMP.XPlugins.Notifications.Tests.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets" Condition="Exists('..\packages\Xamarin.Android.Support.Vector.Drawable.23.3.0\build\Xamarin.Android.Support.Vector.Drawable.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

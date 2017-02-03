@@ -40,6 +40,7 @@ namespace ExampleClient.ViewModels
             RecivedExtraInfoOne = "";
             ScheduledExtraInfoTwo = "";
             RecivedExtraInfoTwo = "";
+            _canceledOn = "";
             CanceledOn = "";
         }
 

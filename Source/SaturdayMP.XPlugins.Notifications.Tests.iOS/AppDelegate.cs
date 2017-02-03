@@ -23,6 +23,7 @@
 
 using Foundation;
 using UIKit;
+using Xamarin.Forms;
 
 namespace SaturdayMP.XPlugins.Notifications.Tests.iOS
 {
@@ -41,7 +42,10 @@ namespace SaturdayMP.XPlugins.Notifications.Tests.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            Xamarin.Forms.Forms.Init();
+            Forms.Init();
+
+            // Register the notification dependency.  Don't forget to do this.
+            DependencyService.Register<Notifications.iOS.NotificationScheduler>();
 
             // This will load all tests within the current project
             var nunit = new NUnit.Runner.App();

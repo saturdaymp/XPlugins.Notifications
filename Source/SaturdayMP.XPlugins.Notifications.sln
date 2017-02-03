@@ -19,7 +19,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayMP.XPlugins.Notific
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SaturdayMP.XPlugins.Notifications.Tests.iOS", "SaturdayMP.XPlugins.Notifications.Tests.iOS\SaturdayMP.XPlugins.Notifications.Tests.iOS.csproj", "{D2CED8F0-7A76-454D-B5F7-9E8B9FE6A58E}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SaturdayMP.XPlugins.Notifications.Tests", "SaturdayMP.XPlugins.Notifications.Tests\SaturdayMP.XPlugins.Notifications.Tests.shproj", "{D3CD9C42-4AF8-407C-8EF1-1FAA47F9B739}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		SaturdayMP.XPlugins.Notifications.Tests\SaturdayMP.XPlugins.Notifications.Tests.projitems*{ad7b78b0-ae51-4fb7-9b11-4e22a2b538ca}*SharedItemsImports = 4
+		SaturdayMP.XPlugins.Notifications.Tests\SaturdayMP.XPlugins.Notifications.Tests.projitems*{d2ced8f0-7a76-454d-b5f7-9e8b9fe6a58e}*SharedItemsImports = 4
+		SaturdayMP.XPlugins.Notifications.Tests\SaturdayMP.XPlugins.Notifications.Tests.projitems*{d3cd9c42-4af8-407c-8ef1-1faa47f9b739}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
 		Ad-Hoc|ARM = Ad-Hoc|ARM

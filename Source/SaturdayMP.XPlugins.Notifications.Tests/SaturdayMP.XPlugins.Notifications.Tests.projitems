@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>d3cd9c42-4af8-407c-8ef1-1faa47f9b739</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>SaturdayMP.XPlugins.Notifications.Tests</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)NotificationSchedulerTests\CancelTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotificationSchedulerTests\FindTests.cs" />
+  </ItemGroup>
+</Project>
