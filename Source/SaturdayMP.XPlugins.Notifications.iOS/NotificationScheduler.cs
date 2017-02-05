@@ -60,6 +60,40 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
 
         #endregion
 
+        #region Conversion
+
+        /// <summary>
+        ///     Converts a <see cref="UILocalNotification" /> to a <see cref="Notification" />
+        /// </summary>
+        /// <param name="uiNotification">
+        ///     The local notification to convert to a
+        ///     <see cref="Notification" />
+        /// </param>
+        /// <returns>The converted notification.</returns>
+        /// <remarks>
+        ///     For more information about the extra info types
+        ///     supported see <see cref="CastNsObject" />.
+        /// </remarks>
+        private static Notification ConvertToNotification(UILocalNotification uiNotification)
+        {
+            // Copy over the title and message.
+            var notification = new Notification
+            {
+                Title = uiNotification.AlertTitle,
+                Message = uiNotification.AlertBody
+            };
+
+            // Get the extra info.
+            var d = new Dictionary<string, object>();
+            foreach (var item in uiNotification.UserInfo)
+                d.Add(item.Key.ToString(), item.Value.ToString());
+            notification.ExtraInfo = d;
+
+            return notification;
+        }
+
+        #endregion
+
         #region Create
 
         /// <inheritdoc />
@@ -114,8 +148,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                 AlertBody = message,
                 FireDate = (NSDate) DateTime.SpecifyKind(scheduleDate, DateTimeKind.Local),
                 UserInfo =
-                    NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(),
-                        extraInfo.Keys.Cast<object>().ToArray())
+                    NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(), extraInfo.Keys.ToArray<object>())
             };
 
 
@@ -170,63 +203,6 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                         return ln;
 
             // Didn't find the notification.
-            return null;
-        }
-
-        #endregion
-
-        #region Conversion
-
-        /// <summary>
-        ///     Converts a <see cref="UILocalNotification" /> to a <see cref="Notification" />
-        /// </summary>
-        /// <param name="uiNotification">
-        ///     The local notification to convert to a
-        ///     <see cref="Notification" />
-        /// </param>
-        /// <returns>The converted notification.</returns>
-        /// <remarks>
-        ///     For more information about the extra info types
-        ///     supported see <see cref="CastNsObject" />.
-        /// </remarks>
-        private static Notification ConvertToNotification(UILocalNotification uiNotification)
-        {
-            // Copy over the title and message.
-            var notification = new Notification
-            {
-                Title = uiNotification.AlertTitle,
-                Message = uiNotification.AlertBody
-            };
-
-            // Get the extra info.
-            var d = new Dictionary<string, object>();
-            foreach (var item in uiNotification.UserInfo)
-                d.Add((NSString) item.Key, CastNsObject(item.Value));
-            notification.ExtraInfo = d;
-
-            return notification;
-        }
-
-        /// <summary>
-        ///     Casts a NS object to a .NET object.
-        /// </summary>
-        /// <param name="valueToCast">The <see cref="NSObject" /> to case.</param>
-        /// <returns>Returns the cast object.  If the object cannot be cast then null is returned.</returns>
-        /// <remarks>
-        ///     For extra info the following conversions are supported:
-        ///     <example>
-        ///         <see cref="NSNumber" /> to <see cref="int" />
-        ///         <see cref="NSString" /> to <see cref="string" />
-        ///     </example>
-        /// </remarks>
-        private static object CastNsObject(NSObject valueToCast)
-        {
-            if (valueToCast.GetType() == typeof(NSNumber))
-                return (int) (NSNumber) valueToCast;
-
-            if (valueToCast.GetType() == typeof(NSString))
-                return (string) (NSString) valueToCast;
-
             return null;
         }
 

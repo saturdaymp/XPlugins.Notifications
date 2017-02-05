@@ -10,6 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)NotificationSchedulerTests\CancelTests.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)NotificationSchedulerTests\CreateTests.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)NotificationSchedulerTests\FindTests.cs" />
   </ItemGroup>
 </Project>
