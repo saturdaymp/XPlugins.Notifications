@@ -37,6 +37,22 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
 
         #endregion
 
+        #region Key Constants
+
+        /// <summary>
+        ///     Key used to store the title part of the notification
+        ///     in the intent.
+        /// </summary>
+        private const string TitleKey = "title";
+
+        /// <summary>
+        ///     Key used to store the message part of the notification
+        ///     in the intent.
+        /// </summary>
+        private const string MessageKey = "message";
+
+        #endregion
+
         #region Create
 
         /// <inheritdoc />
@@ -64,21 +80,27 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             var notificationId = Guid.NewGuid().ToString();
 
 
-            // Create the intent to be called when the alarm triggers.  Make sure
+            // Create the alarm intent to be called when the alarm triggers.  Make sure
             // to add the id so we can find it later if the user wants to update or
             // cancel.
             var alarmIntent = new Intent(Application.Context, typeof(NotificationAlarmHandler));
             alarmIntent.SetAction($"{notificationId}");
-            alarmIntent.PutExtra("title", title);
-            alarmIntent.PutExtra("message", message);
+            alarmIntent.PutExtra(TitleKey, title);
+            alarmIntent.PutExtra(MessageKey, message);
 
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
+            // Add the extra info.
+            foreach (var ei in extraInfo)
+                alarmIntent.PutExtra(ei.Key, ei.Value);
+
+
+            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, alarmIntent,
+                PendingIntentFlags.UpdateCurrent);
 
 
             // Figure out the alaram in milliseconds.
             var utcTime = TimeZoneInfo.ConvertTimeToUtc(scheduleDate);
             var epochDif = (new DateTime(1970, 1, 1) - DateTime.MinValue).TotalSeconds;
-            var notifyTimeInInMilliseconds = utcTime.AddSeconds(-epochDif).Ticks/10000;
+            var notifyTimeInInMilliseconds = utcTime.AddSeconds(-epochDif).Ticks / 10000;
 
 
             // Set the notification.
@@ -102,13 +124,29 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             if (foundIntent == null)
                 return null;
 
+
             // Intent exists, translate it into a notification.
-            return new Notification
+            var foundNotification = new Notification
             {
                 Id = notificationId,
-                Title = foundIntent.GetStringExtra("title"),
-                Message = foundIntent.GetStringExtra("message")
+                Title = foundIntent.GetStringExtra(TitleKey),
+                Message = foundIntent.GetStringExtra(MessageKey)
             };
+
+            // Populate with extra info.
+            foreach (var key in foundIntent.Extras.KeySet())
+            {
+                if (key != TitleKey && key != MessageKey)
+                {
+                    foundNotification.ExtraInfo.Add(key, foundIntent.Extras.GetString(key));
+                }
+                
+            }
+            
+
+
+            // All done.
+            return foundNotification;
         }
 
         /// <summary>

@@ -70,10 +70,6 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         ///     <see cref="Notification" />
         /// </param>
         /// <returns>The converted notification.</returns>
-        /// <remarks>
-        ///     For more information about the extra info types
-        ///     supported see <see cref="CastNsObject" />.
-        /// </remarks>
         private static Notification ConvertToNotification(UILocalNotification uiNotification)
         {
             // Copy over the title and message.
