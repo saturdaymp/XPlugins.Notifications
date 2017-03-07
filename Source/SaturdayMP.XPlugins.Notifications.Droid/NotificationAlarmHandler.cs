@@ -1,7 +1,6 @@
 using Android.App;
 using Android.Content;
 using Android.Support.V4.App;
-using TaskStackBuilder = Android.App.TaskStackBuilder;
 
 namespace SaturdayMP.XPlugins.Notifications.Droid
 {
@@ -32,14 +31,12 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
                 .SetAutoCancel(true);
 
 
-            // Set this application to open when the notification is clicked.
+            // Set this application to open when the notification is clicked.  If the application
+            // is already open it will reuse the same activity.
             var resultIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
-            resultIntent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+            resultIntent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
 
-            var stackBuilder = TaskStackBuilder.Create(Application.Context);
-            stackBuilder.AddNextIntent(resultIntent);
-
-            var resultPendingIntent = stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
+            var resultPendingIntent = PendingIntent.GetActivity(Application.Context, 0, resultIntent, PendingIntentFlags.UpdateCurrent);
             builder.SetContentIntent(resultPendingIntent);
 
 
