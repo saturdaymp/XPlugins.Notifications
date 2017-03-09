@@ -39,6 +39,9 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
 
         #region Key Constants
 
+        // TODO
+        private const string ActionKey = "NOTIFICATION";
+
         /// <summary>
         ///     Key used to store the title part of the notification
         ///     in the intent.
@@ -73,6 +76,13 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             return Create(title, message, scheduleDate, new Dictionary<string, string>());
         }
 
+        
+        // TODO
+        private static string BuildActionName(string notificationId)
+        {
+            return Application.Context.PackageName + "." + ActionKey + "-" + notificationId;
+        }
+
         /// <inheritdoc />
         public string Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
@@ -84,7 +94,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // to add the id so we can find it later if the user wants to update or
             // cancel.
             var alarmIntent = new Intent(Application.Context, typeof(NotificationAlarmHandler));
-            alarmIntent.SetAction($"{notificationId}");
+            alarmIntent.SetAction(BuildActionName(notificationId));
             alarmIntent.PutExtra(TitleKey, title);
             alarmIntent.PutExtra(MessageKey, message);
 
@@ -184,7 +194,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // are the action, data, type of data, package/component, and catagories.  In our case
             // we only set the action to the notification GUID.
             var intentToFind = new Intent(Application.Context, typeof(NotificationAlarmHandler));
-            intentToFind.SetAction(notificationId);
+            intentToFind.SetAction(BuildActionName(notificationId));
 
             // Try to find the intend.
             return PendingIntent.GetBroadcast(Application.Context, 0, intentToFind, PendingIntentFlags.NoCreate);
