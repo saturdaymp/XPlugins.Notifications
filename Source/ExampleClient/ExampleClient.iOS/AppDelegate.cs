@@ -32,6 +32,7 @@ namespace ExampleClient.iOS
 
             // Register the notification dependency.  Don't forget to do this.
             DependencyService.Register<NotificationScheduler>();
+            DependencyService.Register<NotificationListener>();
 
 
             // Launch the app.
@@ -40,15 +41,14 @@ namespace ExampleClient.iOS
         }
 
         /// <summary>
-        ///     Handle a incoming iOS notification and pass it along to the
-        ///     <see cref="SaturdayMP.XPlugins.Notifications.NotificationScheduler" />.
+        ///     Handle a incoming iOS notification.
         /// </summary>
         /// <param name="application">See <see cref="FormsApplicationDelegate.ReceivedLocalNotification" /> for more info.</param>
         /// <param name="notification">See <see cref="FormsApplicationDelegate.ReceivedLocalNotification" /> for more info.</param>
         public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
         {
-            // Let the notification plugin do all the work.
-            NotificationScheduler.Recieved(notification);
+            var listener = new NotificationListener();
+            listener.NotificationReceived(notification);
         }
     }
 }

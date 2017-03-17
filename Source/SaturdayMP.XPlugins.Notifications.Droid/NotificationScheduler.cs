@@ -39,20 +39,22 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
 
         #region Key Constants
 
-        // TODO
-        private const string ActionKey = "NOTIFICATION";
+        /// <summary>
+        ///     The action to append end of the action name.
+        /// </summary>
+        private const string ActionSuffix = "NOTIFICATION";
 
         /// <summary>
         ///     Key used to store the title part of the notification
         ///     in the intent.
         /// </summary>
-        private const string TitleKey = "title";
+        public const string TitleExtrasKey = "title";
 
         /// <summary>
         ///     Key used to store the message part of the notification
         ///     in the intent.
         /// </summary>
-        private const string MessageKey = "message";
+        public const string MessageExtrasKey = "message";
 
         #endregion
 
@@ -76,13 +78,6 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             return Create(title, message, scheduleDate, new Dictionary<string, string>());
         }
 
-        
-        // TODO
-        private static string BuildActionName(string notificationId)
-        {
-            return Application.Context.PackageName + "." + ActionKey + "-" + notificationId;
-        }
-
         /// <inheritdoc />
         public string Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
@@ -95,16 +90,16 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // cancel.
             var alarmIntent = new Intent(Application.Context, typeof(NotificationAlarmHandler));
             alarmIntent.SetAction(BuildActionName(notificationId));
-            alarmIntent.PutExtra(TitleKey, title);
-            alarmIntent.PutExtra(MessageKey, message);
+            alarmIntent.PutExtra(TitleExtrasKey, title);
+            alarmIntent.PutExtra(MessageExtrasKey, message);
 
             // Add the extra info.
             foreach (var ei in extraInfo)
                 alarmIntent.PutExtra(ei.Key, ei.Value);
 
 
-            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, alarmIntent,
-                PendingIntentFlags.UpdateCurrent);
+            // Add the alarm intent to the pending intent.
+            var pendingIntent = PendingIntent.GetBroadcast(Application.Context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent);
 
 
             // Figure out the alaram in milliseconds.
@@ -119,6 +114,22 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
 
             // All done.
             return notificationId;
+        }
+
+        /// <summary>
+        ///     Builds the action name for the notification intent.
+        /// </summary>
+        /// <param name="notificationId">The unique ID of the notification.</param>
+        /// <returns>The action name with the unique notification ID build into it.</returns>
+        /// <remarks>
+        ///     The action name looks something like:
+        ///     <example>
+        ///         com.saturdaymp.exampleclient.NOTIFICATIONS-[notificationId]
+        ///     </example>
+        /// </remarks>
+        internal static string BuildActionName(string notificationId)
+        {
+            return Application.Context.PackageName + "." + ActionSuffix + "-" + notificationId;
         }
 
         #endregion
@@ -139,20 +150,14 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             var foundNotification = new Notification
             {
                 Id = notificationId,
-                Title = foundIntent.GetStringExtra(TitleKey),
-                Message = foundIntent.GetStringExtra(MessageKey)
+                Title = foundIntent.GetStringExtra(TitleExtrasKey),
+                Message = foundIntent.GetStringExtra(MessageExtrasKey)
             };
 
             // Populate with extra info.
             foreach (var key in foundIntent.Extras.KeySet())
-            {
-                if (key != TitleKey && key != MessageKey)
-                {
+                if (key != TitleExtrasKey && key != MessageExtrasKey)
                     foundNotification.ExtraInfo.Add(key, foundIntent.Extras.GetString(key));
-                }
-                
-            }
-            
 
 
             // All done.

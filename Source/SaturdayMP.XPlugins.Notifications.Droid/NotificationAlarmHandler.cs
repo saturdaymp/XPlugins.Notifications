@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
     [BroadcastReceiver]
     internal class NotificationAlarmHandler : BroadcastReceiver
     {
-        /// <inheritdoc />
+       /// <inheritdoc />
         public override void OnReceive(Context context, Intent intent)
         {
             // Pull out the parameters from the alarm.
@@ -34,11 +34,12 @@ namespace SaturdayMP.XPlugins.Notifications.Droid
             // Set this application to open when the notification is clicked.  If the application
             // is already open it will reuse the same activity.
             var resultIntent = Application.Context.PackageManager.GetLaunchIntentForPackage(Application.Context.PackageName);
+            resultIntent.SetAction(intent.Action);
             resultIntent.SetFlags(ActivityFlags.ClearTop | ActivityFlags.SingleTop);
+            resultIntent.PutExtras(intent.Extras);
 
             var resultPendingIntent = PendingIntent.GetActivity(Application.Context, 0, resultIntent, PendingIntentFlags.UpdateCurrent);
             builder.SetContentIntent(resultPendingIntent);
-
 
             // Show the notification.
             var notificationManager = NotificationManagerCompat.From(Application.Context);

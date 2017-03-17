@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="Tests\NotificationListenerTests\NotificationRecievedTests.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -146,9 +147,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AppDelegate.cs.txt" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\SaturdayMP.XPlugins.Notifications.iOS\SaturdayMP.XPlugins.Notifications.iOS.csproj">
       <Project>{b7696cff-1c02-4211-8ff7-8c0499bafd76}</Project>
       <Name>SaturdayMP.XPlugins.Notifications.iOS</Name>
@@ -159,6 +157,9 @@
       <Project>{67f9d3a8-f71e-4428-913f-c37ae82cdb24}</Project>
       <Name>SaturdayMP.XPlugins.Notifications</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AppDelegate.cs.txt" />
   </ItemGroup>
   <Import Project="..\SaturdayMP.XPlugins.Notifications.Tests\SaturdayMP.XPlugins.Notifications.Tests.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

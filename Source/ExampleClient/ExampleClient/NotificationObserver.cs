@@ -1,20 +1,22 @@
 ﻿using ExampleClient.Repositories;
 using ExampleClient.ViewModels;
+using ExampleClient.Views;
 using SaturdayMP.XPlugins.Notifications;
 using Xamarin.Forms;
 
 namespace ExampleClient
 {
     /// <summary>
-    /// Handle notifications.
+    ///     Handle notifications.
     /// </summary>
-    public class NotificationListener : INotificationListener
+    public class NotificationObserver : INotificationObserver
     {
-        /// <inheritdoc />
-        /// <remarks>
-        /// Parse out the 
-        /// </remarks>
-        public void Recieved(Notification notification)
+        /// <summary>
+        ///     When a notification is recieved update the repository and show
+        ///     the recieved notification to the user.
+        /// </summary>
+        /// <param name="notification"></param>
+        public void NotificationReceived(Notification notification)
         {
             // Copy the notification values to the view model
             var viewModel = new NotificationRecievedViewModel
@@ -26,14 +28,10 @@ namespace ExampleClient
 
             // Only copy the extra info if it exists.
             if (notification.ExtraInfo.ContainsKey("ExtraInfoOne"))
-            {
-                viewModel.ExtraInfoOne = (string) notification.ExtraInfo["ExtraInfoOne"];
-            }
+                viewModel.ExtraInfoOne = notification.ExtraInfo["ExtraInfoOne"];
 
             if (notification.ExtraInfo.ContainsKey("ExtraInfoTwo"))
-            {
-                viewModel.ExtraInfoTwo = (string) notification.ExtraInfo["ExtraInfoTwo"];
-            }
+                viewModel.ExtraInfoTwo = notification.ExtraInfo["ExtraInfoTwo"];
 
 
             // Save the recieved view model.
@@ -41,7 +39,7 @@ namespace ExampleClient
 
 
             // Show the notifcation page.
-            var notificationPage = new Views.NotificationRecievedPage(viewModel);
+            var notificationPage = new NotificationRecievedPage(viewModel);
             Application.Current.MainPage.Navigation.PushAsync(notificationPage);
         }
     }

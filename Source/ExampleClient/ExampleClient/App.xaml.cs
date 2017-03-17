@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using SaturdayMP.XPlugins.Notifications;
+using Xamarin.Forms;
 
 namespace ExampleClient
 {
@@ -7,6 +8,11 @@ namespace ExampleClient
         public App()
         {
             InitializeComponent();
+
+
+            // Register the notification listener.
+            NotificationListener.Subscribe(new NotificationObserver());
+
 
             MainPage = new NavigationPage(new Views.MainPage());
         }

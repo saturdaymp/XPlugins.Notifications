@@ -35,10 +35,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="INotificationListener.cs" />
+    <Compile Include="INotificationObserver.cs" />
     <Compile Include="INotificationScheduler.cs" />
     <Compile Include="Notification.cs" />
-    <Compile Include="NotificationScheduler.cs" />
+    <Compile Include="NotificationListener.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

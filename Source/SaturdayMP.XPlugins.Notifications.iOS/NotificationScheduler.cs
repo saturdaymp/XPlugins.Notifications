@@ -16,7 +16,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         ///     info dictonary.  Is hopefully unique enough that
         ///     the caller won't use the same key.
         /// </summary>
-        private const string NotificationIdKey = "notificationidkey";
+        public const string NotificationIdKey = "notificationidkey";
 
         #region Cancel
 
@@ -41,25 +41,6 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
 
         #endregion
 
-        #region Recieved Notification
-
-        /// <summary>
-        ///     A iOS notification was recieved.
-        /// </summary>
-        /// <param name="localNotification">The notifictaion recieved by iOS.</param>
-        /// <remarks>
-        ///     Take the iOS notification and transform it into a <see cref="SaturdayMP.XPlugins.Notifications.Notification" />
-        ///     befoce calling <see cref="SaturdayMP.XPlugins.Notifications.NotificationScheduler.Recieved(Notification)" />.
-        /// </remarks>
-        public static void Recieved(UILocalNotification localNotification)
-        {
-            var notification = ConvertToNotification(localNotification);
-
-            Notifications.NotificationScheduler.Recieved(notification);
-        }
-
-        #endregion
-
         #region Conversion
 
         /// <summary>
@@ -70,21 +51,43 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         ///     <see cref="Notification" />
         /// </param>
         /// <returns>The converted notification.</returns>
-        private static Notification ConvertToNotification(UILocalNotification uiNotification)
+        internal static Notification ConvertToNotification(UILocalNotification uiNotification)
         {
+
+            // If we make UI calls outside of the main thread then an exception
+            // will be thrown.  So make sure we are in the main thread.
+            if (!NSThread.IsMain)
+            {
+                Notification returnNotificationId = null;
+                UIApplication.SharedApplication.InvokeOnMainThread(
+                    () => returnNotificationId = ConvertToNotification(uiNotification));
+
+                return returnNotificationId;
+            }
+
+
             // Copy over the title and message.
             var notification = new Notification
             {
+                Id = uiNotification.UserInfo[NotificationIdKey].ToString(),
                 Title = uiNotification.AlertTitle,
                 Message = uiNotification.AlertBody
             };
 
-            // Get the extra info.
-            var d = new Dictionary<string, object>();
+
+            // Get the extra info but ignore the notification ID.
+            var d = new Dictionary<string, string>();
             foreach (var item in uiNotification.UserInfo)
-                d.Add(item.Key.ToString(), item.Value.ToString());
+            {
+                if (item.Key.ToString() != NotificationIdKey)
+                {
+                    d.Add(item.Key.ToString(), item.Value.ToString());
+                }
+            }
             notification.ExtraInfo = d;
 
+
+            // All done.
             return notification;
         }
 
@@ -114,6 +117,9 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
         /// <inheritdoc />
         public string Create(string title, string message, DateTime scheduleDate, Dictionary<string, string> extraInfo)
         {
+            if (extraInfo == null) throw new ArgumentNullException(nameof(extraInfo));
+
+
             // If we make UI calls outside of the main thread then an exception
             // will be thrown.  So make sure we are in the main thread.
             if (!NSThread.IsMain)
@@ -132,7 +138,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
 
             // Create the unique ID for this notification.
             var notificationId = Guid.NewGuid().ToString();
-            extraInfo.Add(NotificationIdKey, notificationId);
+            var extraInfoWithNotificationId = new Dictionary<string, string>(extraInfo) {{NotificationIdKey, notificationId}};
 
 
             // Create the iOS notification.  Make sure you 
@@ -143,8 +149,7 @@ namespace SaturdayMP.XPlugins.Notifications.iOS
                 AlertTitle = title,
                 AlertBody = message,
                 FireDate = (NSDate) DateTime.SpecifyKind(scheduleDate, DateTimeKind.Local),
-                UserInfo =
-                    NSDictionary.FromObjectsAndKeys(extraInfo.Values.ToArray<object>(), extraInfo.Keys.ToArray<object>())
+                UserInfo = NSDictionary.FromObjectsAndKeys(extraInfoWithNotificationId.Values.ToArray<object>(), extraInfoWithNotificationId.Keys.ToArray<object>())
             };
 
 

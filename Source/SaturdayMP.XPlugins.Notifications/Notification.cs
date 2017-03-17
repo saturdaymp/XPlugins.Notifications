@@ -11,7 +11,7 @@ namespace SaturdayMP.XPlugins.Notifications
         /// <summary>
         ///     Any extra information attached to the notification.
         /// </summary>
-        [NotNull] public Dictionary<string, object> ExtraInfo;
+        [NotNull] public Dictionary<string, string> ExtraInfo;
 
         /// <summary>
         ///     Create an new empty notification and initialize
@@ -19,7 +19,7 @@ namespace SaturdayMP.XPlugins.Notifications
         /// </summary>
         public Notification()
         {
-            ExtraInfo = new Dictionary<string, object>();
+            ExtraInfo = new Dictionary<string, string>();
         }
 
         /// <summary>
