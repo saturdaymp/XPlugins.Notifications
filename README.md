@@ -2,9 +2,9 @@
 Provides a common interface to schedule notifications for Xamarin Forms.
 
 # Installing
-You can get the continous integration builds from [MyGet](https://www.myget.org/feed/Packages/saturdaymp).  Look for the XPlugins.Notifictions package.
+You can get the continous integration builds from [MyGet](https://www.myget.org/feed/saturdaymp/package/nuget/SaturdayMP.XPlugin.Notifications).  Look for the XPlugins.Notifictions package.
 
-# Quick Start
+# Schedule NotificationQuick Start
 Assuming you have an existing Xamarin Forms application the below should get you sending notifications in a couple of minutes.  If you need further help please check out the ExampleClient projects in the source code.
 
 ## Platform Specific Setup
@@ -106,6 +106,136 @@ if (foundNotification != null)
 ```
 
 Will only find notifications that have not been canceled.  On iOS this will only return notifications in the future.  It won't find notifications in the past.
+
+# Recieve Notifications Quick Start
+Now that you can send notifications it would be nice to reacte when you get one.  The below will let your Xamarin Forms handle incoming local notifications.
+
+## Platform Specific Setup
+Similar to scheduling notifications it requires a small amount of platform specific code.
+
+### Android
+When you schedule a notification in Android it is setup to reuse your existing activity but with a new intent.  Override the OnNewIntent in the MainActivity:
+
+```C#
+public class MainActivity : FormsAppCompatActivity
+{
+
+    protected override void OnCreate(Bundle bundle)
+    {
+        // Code we aren't intersted in.
+    }
+    
+    protected override void OnNewIntent(Intent intent)
+    {
+        // Let the parent do it's thing.
+        base.OnNewIntent(intent);
+
+        // Let the notification plugin translate the Andorid notification (i.e. Intent)
+        // to a XPlugins notification.  This will also trigger the event in the portable
+        // project assuming it has registered an observer.
+        var listener = new NotificationListener();
+        listener.NotificationRecieved(intent);
+    }    
+}
+```
+
+### iOS
+In iOS override the RecievedLocalNotification method in the AppDelete class:
+
+```C#
+public class AppDelegate : FormsApplicationDelegate
+{
+
+    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+    {
+        // Code we aren't interested in.
+    }
+
+    public override void ReceivedLocalNotification(UIApplication application, UILocalNotification notification)
+    {
+        // The XPlugin know that we recieved a local notifiation.  It will
+        // take are of the rest.
+        var listener = new NotificationListener();
+        listener.NotificationReceived(notification);
+    }
+}
+```
+
+## Handling Notifications
+In your portable class project you need to subscribe to recieven incoming notifictions.  To do this create class that implments the INotificationObserver interface and it's one method NotificationRecieved.  For example:
+
+```C#
+public class NotificationObserver : INotificationObserver
+{
+    public void NotificationReceived(Notification notification)
+    {
+        Console.WriteLine(notification.Id);
+        Console.WriteLine(notification.Title);
+        Console.WriteLine(notification.Message);
+    }
+}
+```
+
+The below example displays a new page when a notification is recieved with the details of the notification.
+
+```C#
+public class NotificationObserver : INotificationObserver
+{
+    /// <summary>
+    ///     When a notification is recieved update the repository and show
+    ///     the recieved notification to the user.
+    /// </summary>
+    /// <param name="notification"></param>
+    public void NotificationReceived(Notification notification)
+    {
+        // Copy the notification values to the view model
+        var viewModel = new NotificationRecievedViewModel
+        {
+            Id = notification.Id,
+            Title = notification.Title,
+            Message = notification.Message
+        };
+
+        // Only copy the extra info if it exists.
+        if (notification.ExtraInfo.ContainsKey("ExtraInfoOne"))
+            viewModel.ExtraInfoOne = notification.ExtraInfo["ExtraInfoOne"];
+
+        if (notification.ExtraInfo.ContainsKey("ExtraInfoTwo"))
+            viewModel.ExtraInfoTwo = notification.ExtraInfo["ExtraInfoTwo"];
+
+
+        // Save the recieved view model.
+        ScheduledNotificationRepository.NotificationRecieved(notification.Id, viewModel.Title, viewModel.Message, viewModel.ExtraInfoOne, viewModel.ExtraInfoTwo);
+
+
+        // Show the notifcation page.
+        var notificationPage = new NotificationRecievedPage(viewModel);
+        Application.Current.MainPage.Navigation.PushAsync(notificationPage);
+    }
+}
+```
+
+Then register your INotificationObserver class as shown below.  This example shows subscribing at the application start but that's not required.
+
+```C#
+public partial class App
+{
+    public App()
+    {
+        InitializeComponent();
+
+        // Register the notification listener.
+        NotificationListener.Subscribe(new NotificationObserver());
+
+        MainPage = new NavigationPage(new Views.MainPage());
+    }
+}
+```
+
+## Known Issues
+Don't for to unsubscribe if you no longer wish to recieve local notifications.  This usually won't be a problem because, I think, most applications will subscribe to recieve notifications when they start and continue to recieve them until terminated.
+
+I'm also not 100% happy with the notification listener implemenation.  If you have any suggestions please let me know.
 
 # Acknowledgements
 Project was inspired by [edsnider/Xamarin.Plugins](https://github.com/edsnider/Xamarin.Plugins) and [EgorBo/Toasts.Forms.Plugin](https://github.com/EgorBo/Toasts.Forms.Plugin).
