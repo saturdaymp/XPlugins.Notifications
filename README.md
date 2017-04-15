@@ -8,7 +8,7 @@ You can get the continous integration builds from [MyGet](https://www.myget.org/
 Assuming you have an existing Xamarin Forms application the below should get you sending notifications in a couple of minutes.  If you need further help please check out the ExampleClient projects in the source code.
 
 ## Platform Specific Setup
-Once you have the NuGet package installed you need to setup a dependency reference in each project you want to us notifications in.  This is usually done in the 
+Once you have the NuGet package installed you need to setup a dependency reference in each project you want to use notifications in.  This is usually done in the 
 
 ### Android
 For Android you register the NotificatonScheduler in the main activity:
@@ -30,7 +30,7 @@ Public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivit
 ```
 
 ### iOS
-Similar ot Andorid you need to register the NotificationScheduler but this time in your AppDelete FinishedLaunching method.
+Similar to Andorid you need to register the NotificationScheduler but this time in your AppDelete FinishedLaunching method.
 
 ```C#
 public override bool FinishedLaunching(UIApplication app, NSDictionary options)
@@ -107,8 +107,8 @@ if (foundNotification != null)
 
 Will only find notifications that have not been canceled.  On iOS this will only return notifications in the future.  It won't find notifications in the past.
 
-# Recieve Notifications Quick Start
-Now that you can send notifications it would be nice to reacte when you get one.  The below will let your Xamarin Forms handle incoming local notifications.
+# Receive Notifications Quick Start
+Now that you can send notifications it would be nice to react when you get one.  The below will let your Xamarin Forms handle incoming local notifications.
 
 ## Platform Specific Setup
 Similar to scheduling notifications it requires a small amount of platform specific code.
@@ -140,7 +140,7 @@ public class MainActivity : FormsAppCompatActivity
 ```
 
 ### iOS
-In iOS override the RecievedLocalNotification method in the AppDelete class:
+In iOS override the ReceivedLocalNotification method in the AppDelete class:
 
 ```C#
 public class AppDelegate : FormsApplicationDelegate
@@ -162,7 +162,7 @@ public class AppDelegate : FormsApplicationDelegate
 ```
 
 ## Handling Notifications
-In your portable class project you need to subscribe to recieven incoming notifictions.  To do this create class that implments the INotificationObserver interface and it's one method NotificationRecieved.  For example:
+In your portable class project you need to subscribe to receive incoming notifications.  To do this create class that implments the INotificationObserver interface and it's one method NotificationRecieved.  For example:
 
 ```C#
 public class NotificationObserver : INotificationObserver
@@ -233,9 +233,9 @@ public partial class App
 ```
 
 ## Known Issues
-Don't for to unsubscribe if you no longer wish to recieve local notifications.  This usually won't be a problem because, I think, most applications will subscribe to recieve notifications when they start and continue to recieve them until terminated.
+Don't forget to unsubscribe if you no longer wish to receive local notifications.  This usually won't be a problem because, I think, most applications will subscribe to receive notifications when they start and continue to receive them until terminated.
 
-I'm also not 100% happy with the notification listener implemenation.  If you have any suggestions please let me know.
+I'm also not 100% happy with the notification listener implementation.  If you have any suggestions please let me know.
 
 # Acknowledgements
 Project was inspired by [edsnider/Xamarin.Plugins](https://github.com/edsnider/Xamarin.Plugins) and [EgorBo/Toasts.Forms.Plugin](https://github.com/EgorBo/Toasts.Forms.Plugin).
