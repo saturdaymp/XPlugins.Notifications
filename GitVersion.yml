@@ -1,6 +1,6 @@
 branches:
   master:
-    mode: ContinuousDeployment
+    mode: ContinuousDelivery
     tag: 'alpha'
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
