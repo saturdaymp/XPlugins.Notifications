@@ -5,13 +5,11 @@ branches:
     increment: Minor
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
-    is-release-branch: false
   releases?[/-]:
     mode: ContinuousDelivery
     tag: 'beta'
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-    is-release-branch: true
 ignore:
   sha: []
