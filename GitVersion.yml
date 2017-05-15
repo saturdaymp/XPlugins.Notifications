@@ -5,7 +5,6 @@ branches:
     increment: Minor
     prevent-increment-of-merged-branch-version: false
     track-merge-target: true
-    tracks-release-branches: true
     is-release-branch: false
   releases?[/-]:
     mode: ContinuousDelivery
@@ -13,7 +12,6 @@ branches:
     increment: Patch
     prevent-increment-of-merged-branch-version: true
     track-merge-target: false
-    tracks-release-branches: false
     is-release-branch: true
 ignore:
   sha: []
