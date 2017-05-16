@@ -4,8 +4,8 @@
         <id>SaturdayMP.XPlugin.Notifications</id>
         <version>$version$</version>
         <title>XPlugin - Notifications</title>
-        <authors>SaturdayMP,chrisc</authors>
-        <owners>SaturdayMP,chrisc</owners>
+        <authors>SaturdayMP</authors>
+        <owners>SaturdayMP</owners>
         <licenseUrl>https://github.com/saturdaymp/XPlugins.Notifications/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/saturdaymp/XPlugins.Notifications</projectUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
