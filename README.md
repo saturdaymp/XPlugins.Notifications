@@ -2,7 +2,7 @@
 Provides a common interface to schedule notifications for Xamarin Forms.
 
 # Installing
-You can get the continous integration builds from [MyGet](https://www.myget.org/feed/saturdaymp/package/nuget/SaturdayMP.XPlugin.Notifications).  Look for the XPlugins.Notifictions package.
+The plugin is released as a NuGet package at "[SaturdayMP.XPlugin.Notifications](https://www.nuget.org/packages/SaturdayMP.XPlugin.Notifications)".  You can get the alpha builds (i.e. continous integration builds) from [MyGet](https://www.myget.org/feed/saturdaymp/package/nuget/SaturdayMP.XPlugin.Notifications).
 
 # Schedule NotificationQuick Start
 Assuming you have an existing Xamarin Forms application the below should get you sending notifications in a couple of minutes.  If you need further help please check out the ExampleClient projects in the source code.
