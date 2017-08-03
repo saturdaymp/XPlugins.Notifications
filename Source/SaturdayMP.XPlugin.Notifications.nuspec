@@ -8,7 +8,7 @@
         <owners>SaturdayMP</owners>
         <licenseUrl>https://github.com/saturdaymp/XPlugins.Notifications/blob/master/LICENSE</licenseUrl>
         <projectUrl>https://github.com/saturdaymp/XPlugins.Notifications</projectUrl>
-		<iconUrl>https://github.com/saturdaymp/XPlugins.Notifications/blob/master/Logo/XPlugins.Notifications_Logo64.png</iconUrl>
+		<iconUrl>https://raw.githubusercontent.com/saturdaymp/XPlugins.Notifications/master/Logo/XPlugins.Notifications_Logo64.png</iconUrl>
         <requireLicenseAcceptance>false</requireLicenseAcceptance>
         <description>Plugin for creating and handling notifications in Xamarin Forms applications.</description>
     </metadata>
