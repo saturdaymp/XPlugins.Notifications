@@ -1,3 +1,7 @@
+[![GitHub release (with filter)](https://img.shields.io/github/v/release/saturdaymp/XPlugins.Notifications?sort=semver&label=Latest%20Release&labelColor=3C444C&logoColor=959DA5&logo=GitHub)](https://github.com/saturdaymp/XPlugins.Notifications/releases/latest)
+[![Nuget](https://img.shields.io/nuget/dt/SaturdayMP.XPlugin.Notifications?logo=nuget&label=Downloads&labelColor=3C444C&logoColor=959DA5)](https://www.nuget.org/packages/SaturdayMP.XPlugin.Notifications)
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/saturdaymp?label=Sponsors&logo=githubsponsors&labelColor=3C444C)](https://github.com/sponsors/saturdaymp)
+
 # XPlugins.Notifications
 Provides a common interface to schedule notifications for Xamarin Forms.
 
