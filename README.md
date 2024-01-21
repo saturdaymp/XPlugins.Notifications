@@ -5,6 +5,8 @@
 # XPlugins.Notifications
 Provides a common interface to schedule notifications for Xamarin Forms.
 
+This project is archived as there is a better version of Local Noticiations at [thudugala/Plugin.LocalNotification](https://github.com/thudugala/Plugin.LocalNotification).  That said, if you think I should un-archive this project please let me know by opening an [issue](https://github.com/saturdaymp/XPlugins.Notifications/issues).
+
 # Installing
 The plugin is released as a NuGet package at "[SaturdayMP.XPlugin.Notifications](https://www.nuget.org/packages/SaturdayMP.XPlugin.Notifications)".  You can get the alpha builds (i.e. continous integration builds) from [MyGet](https://www.myget.org/feed/saturdaymp/package/nuget/SaturdayMP.XPlugin.Notifications).
 
